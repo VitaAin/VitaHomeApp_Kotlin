@@ -26,6 +26,8 @@
             android:label="@string/title_activity_article_show"
             android:theme="@style/VitaHomeAppTheme">
         </activity>
+        <activity android:name=".activity.AddArticleActivity">
+        </activity>
     </application>
 
 </manifest>

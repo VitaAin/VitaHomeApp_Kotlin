@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.view.View
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -39,22 +38,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         setupViews()
         initData()
     }
 
     private fun setupViews() {
-        setupToolbarAndDrawer()
+        setupToolbar()
         setupFab()
         setupNavView()
         setupArticlesRv()
     }
 
-    private fun setupToolbarAndDrawer() {
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+    private fun setupToolbar() {
+        val toolbar = findViewById(R.id.tbMain) as Toolbar
         setSupportActionBar(toolbar)
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawer = findViewById(R.id.drawerMain) as DrawerLayout
         val toggle = ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.setDrawerListener(toggle)
@@ -62,15 +63,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setupFab() {
-        val fab = findViewById(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        val fab = findViewById(R.id.fabInMain) as FloatingActionButton
+        fab.setOnClickListener {
+            startActivity(Intent(this@MainActivity, AddArticleActivity::class.java))
         }
     }
 
     private fun setupNavView() {
-        val navigationView = findViewById(R.id.nav_view) as NavigationView
+        val navigationView = findViewById(R.id.navViewMain) as NavigationView
         navigationView.setNavigationItemSelectedListener(this@MainActivity)
     }
 
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawer = findViewById(R.id.drawerMain) as DrawerLayout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawer = findViewById(R.id.drawerMain) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
