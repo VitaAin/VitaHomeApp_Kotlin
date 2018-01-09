@@ -8,249 +8,237 @@ import com.google.gson.annotations.SerializedName;
  * @Date: 2018-01-09 14:33
  * @Usage:
  */
-public class User extends Base {
-    private DataBean data;
+public class User {
+    int id;
+    @SerializedName("github_id")
+    int githubId;
+    String name;
+    String email;
+    String avatar;
+    @SerializedName("real_name")
+    String realName;
+    String sex;
+    String qq;
+    String city;
+    String introduction;
+    @SerializedName("articles_count")
+    int articlesCount;
+    @SerializedName("comments_count")
+    int commentsCount;
+    @SerializedName("images_count")
+    int imagesCount;
+    @SerializedName("words_count")
+    int wordsCount;
+    @SerializedName("likes_count")
+    int likesCount;
+    @SerializedName("followers_count")
+    int followersCount;
+    @SerializedName("followings_count")
+    int followingsCount;
+    @SerializedName("is_banned")
+    int isBanned;
+    @SerializedName("confirm_code")
+    String confirmCode;
+    @SerializedName("is_confirmed")
+    int isConfirmed;
+    @SerializedName("last_actived_at")
+    String lastActivedAt;
+    @SerializedName("created_at")
+    String createdAt;
+    @SerializedName("updated_at")
+    String updatedAt;
+    @SerializedName("deleted_at")
+    String deletedAt;
 
-    public DataBean getData() {
-        return data;
+    public int getId() {
+        return id;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static class DataBean {
-        int id;
-        @SerializedName("github_id")
-        int githubId;
-        String name;
-        String email;
-        String avatar;
-        @SerializedName("real_name")
-        String realName;
-        String sex;
-        String qq;
-        String city;
-        String introduction;
-        @SerializedName("articles_count")
-        int articlesCount;
-        @SerializedName("comments_count")
-        int commentsCount;
-        @SerializedName("images_count")
-        int imagesCount;
-        @SerializedName("words_count")
-        int wordsCount;
-        @SerializedName("likes_count")
-        int likesCount;
-        @SerializedName("followers_count")
-        int followersCount;
-        @SerializedName("followings_count")
-        int followingsCount;
-        @SerializedName("is_banned")
-        int isBanned;
-        @SerializedName("confirm_code")
-        String confirmCode;
-        @SerializedName("is_confirmed")
-        int isConfirmed;
-        @SerializedName("last_actived_at")
-        String lastActivedAt;
-        @SerializedName("created_at")
-        String createdAt;
-        @SerializedName("updated_at")
-        String updatedAt;
-        @SerializedName("deleted_at")
-        String deletedAt;
+    public int getGithubId() {
+        return githubId;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public void setGithubId(int githubId) {
+        this.githubId = githubId;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public String getName() {
+        return name;
+    }
 
-        public int getGithubId() {
-            return githubId;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public void setGithubId(int githubId) {
-            this.githubId = githubId;
-        }
+    public String getEmail() {
+        return email;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public String getAvatar() {
+        return avatar;
+    }
 
-        public String getEmail() {
-            return email;
-        }
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
-        public void setEmail(String email) {
-            this.email = email;
-        }
+    public String getRealName() {
+        return realName;
+    }
 
-        public String getAvatar() {
-            return avatar;
-        }
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
-        }
+    public String getSex() {
+        return sex;
+    }
 
-        public String getRealName() {
-            return realName;
-        }
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-        public void setRealName(String realName) {
-            this.realName = realName;
-        }
+    public String getQq() {
+        return qq;
+    }
 
-        public String getSex() {
-            return sex;
-        }
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
 
-        public void setSex(String sex) {
-            this.sex = sex;
-        }
+    public String getCity() {
+        return city;
+    }
 
-        public String getQq() {
-            return qq;
-        }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-        public void setQq(String qq) {
-            this.qq = qq;
-        }
+    public String getIntroduction() {
+        return introduction;
+    }
 
-        public String getCity() {
-            return city;
-        }
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
 
-        public void setCity(String city) {
-            this.city = city;
-        }
+    public int getArticlesCount() {
+        return articlesCount;
+    }
 
-        public String getIntroduction() {
-            return introduction;
-        }
+    public void setArticlesCount(int articlesCount) {
+        this.articlesCount = articlesCount;
+    }
 
-        public void setIntroduction(String introduction) {
-            this.introduction = introduction;
-        }
+    public int getCommentsCount() {
+        return commentsCount;
+    }
 
-        public int getArticlesCount() {
-            return articlesCount;
-        }
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
 
-        public void setArticlesCount(int articlesCount) {
-            this.articlesCount = articlesCount;
-        }
+    public int getImagesCount() {
+        return imagesCount;
+    }
 
-        public int getCommentsCount() {
-            return commentsCount;
-        }
+    public void setImagesCount(int imagesCount) {
+        this.imagesCount = imagesCount;
+    }
 
-        public void setCommentsCount(int commentsCount) {
-            this.commentsCount = commentsCount;
-        }
+    public int getWordsCount() {
+        return wordsCount;
+    }
 
-        public int getImagesCount() {
-            return imagesCount;
-        }
+    public void setWordsCount(int wordsCount) {
+        this.wordsCount = wordsCount;
+    }
 
-        public void setImagesCount(int imagesCount) {
-            this.imagesCount = imagesCount;
-        }
+    public int getLikesCount() {
+        return likesCount;
+    }
 
-        public int getWordsCount() {
-            return wordsCount;
-        }
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
 
-        public void setWordsCount(int wordsCount) {
-            this.wordsCount = wordsCount;
-        }
+    public int getFollowersCount() {
+        return followersCount;
+    }
 
-        public int getLikesCount() {
-            return likesCount;
-        }
+    public void setFollowersCount(int followersCount) {
+        this.followersCount = followersCount;
+    }
 
-        public void setLikesCount(int likesCount) {
-            this.likesCount = likesCount;
-        }
+    public int getFollowingsCount() {
+        return followingsCount;
+    }
 
-        public int getFollowersCount() {
-            return followersCount;
-        }
+    public void setFollowingsCount(int followingsCount) {
+        this.followingsCount = followingsCount;
+    }
 
-        public void setFollowersCount(int followersCount) {
-            this.followersCount = followersCount;
-        }
+    public int getIsBanned() {
+        return isBanned;
+    }
 
-        public int getFollowingsCount() {
-            return followingsCount;
-        }
+    public void setIsBanned(int isBanned) {
+        this.isBanned = isBanned;
+    }
 
-        public void setFollowingsCount(int followingsCount) {
-            this.followingsCount = followingsCount;
-        }
+    public String getConfirmCode() {
+        return confirmCode;
+    }
 
-        public int getIsBanned() {
-            return isBanned;
-        }
+    public void setConfirmCode(String confirmCode) {
+        this.confirmCode = confirmCode;
+    }
 
-        public void setIsBanned(int isBanned) {
-            this.isBanned = isBanned;
-        }
+    public int getIsConfirmed() {
+        return isConfirmed;
+    }
 
-        public String getConfirmCode() {
-            return confirmCode;
-        }
+    public void setIsConfirmed(int isConfirmed) {
+        this.isConfirmed = isConfirmed;
+    }
 
-        public void setConfirmCode(String confirmCode) {
-            this.confirmCode = confirmCode;
-        }
+    public String getLastActivedAt() {
+        return lastActivedAt;
+    }
 
-        public int getIsConfirmed() {
-            return isConfirmed;
-        }
+    public void setLastActivedAt(String lastActivedAt) {
+        this.lastActivedAt = lastActivedAt;
+    }
 
-        public void setIsConfirmed(int isConfirmed) {
-            this.isConfirmed = isConfirmed;
-        }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-        public String getLastActivedAt() {
-            return lastActivedAt;
-        }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-        public void setLastActivedAt(String lastActivedAt) {
-            this.lastActivedAt = lastActivedAt;
-        }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-        public String getCreatedAt() {
-            return createdAt;
-        }
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
+    public String getDeletedAt() {
+        return deletedAt;
+    }
 
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-
-        public String getDeletedAt() {
-            return deletedAt;
-        }
-
-        public void setDeletedAt(String deletedAt) {
-            this.deletedAt = deletedAt;
-        }
+    public void setDeletedAt(String deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

@@ -2,6 +2,7 @@ package com.vita.home.api
 
 import com.vita.home.bean.Article
 import com.vita.home.bean.Articles
+import com.vita.home.bean.Wrap
 import retrofit2.Callback
 
 /**
@@ -23,10 +24,10 @@ class Api private constructor() {
         val api = Api()
     }
 
-    fun getArticles(listener: Callback<Articles>)
+    fun getArticles(listener: Callback<Wrap<Articles>>)
             = mApiService.getArticles().enqueue(listener)
 
-    fun getArticle(id: Int, listener: Callback<Article>)
+    fun getArticle(id: Int, listener: Callback<Wrap<Article>>)
             = mApiService.getArticle(id).enqueue(listener)
 
 }

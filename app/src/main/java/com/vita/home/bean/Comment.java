@@ -10,122 +10,110 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Comment {
 
-    private DataBean data;
+    private int id;
+    @SerializedName("user_id")
+    private int userId;
+    private String content;
+    @SerializedName("commentable_id")
+    private int commentableId;
+    @SerializedName("commentable_type")
+    private String commentableType;
+    @SerializedName("parent_id")
+    private int parentId;
+    private int level;
+    private int floor;
+    @SerializedName("children_count")
+    private int childrenCount;
+    @SerializedName("created_at")
+    private String createdAt;
+    @SerializedName("updated_at")
+    private String updatedAt;
 
-    public DataBean getData() {
-        return data;
+    public int getId() {
+        return id;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static class DataBean {
-        private int id;
-        @SerializedName("user_id")
-        private int userId;
-        private String content;
-        @SerializedName("commentable_id")
-        private int commentableId;
-        @SerializedName("commentable_type")
-        private String commentableType;
-        @SerializedName("parent_id")
-        private int parentId;
-        private int level;
-        private int floor;
-        @SerializedName("children_count")
-        private int childrenCount;
-        @SerializedName("created_at")
-        private String createdAt;
-        @SerializedName("updated_at")
-        private String updatedAt;
+    public int getUserId() {
+        return userId;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public String getContent() {
+        return content;
+    }
 
-        public int getUserId() {
-            return userId;
-        }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
+    public int getCommentableId() {
+        return commentableId;
+    }
 
-        public String getContent() {
-            return content;
-        }
+    public void setCommentableId(int commentableId) {
+        this.commentableId = commentableId;
+    }
 
-        public void setContent(String content) {
-            this.content = content;
-        }
+    public String getCommentableType() {
+        return commentableType;
+    }
 
-        public int getCommentableId() {
-            return commentableId;
-        }
+    public void setCommentableType(String commentableType) {
+        this.commentableType = commentableType;
+    }
 
-        public void setCommentableId(int commentableId) {
-            this.commentableId = commentableId;
-        }
+    public int getParentId() {
+        return parentId;
+    }
 
-        public String getCommentableType() {
-            return commentableType;
-        }
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
 
-        public void setCommentableType(String commentableType) {
-            this.commentableType = commentableType;
-        }
+    public int getLevel() {
+        return level;
+    }
 
-        public int getParentId() {
-            return parentId;
-        }
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
-        public void setParentId(int parentId) {
-            this.parentId = parentId;
-        }
+    public int getFloor() {
+        return floor;
+    }
 
-        public int getLevel() {
-            return level;
-        }
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
 
-        public void setLevel(int level) {
-            this.level = level;
-        }
+    public int getChildrenCount() {
+        return childrenCount;
+    }
 
-        public int getFloor() {
-            return floor;
-        }
+    public void setChildrenCount(int childrenCount) {
+        this.childrenCount = childrenCount;
+    }
 
-        public void setFloor(int floor) {
-            this.floor = floor;
-        }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-        public int getChildrenCount() {
-            return childrenCount;
-        }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-        public void setChildrenCount(int childrenCount) {
-            this.childrenCount = childrenCount;
-        }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
-        }
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

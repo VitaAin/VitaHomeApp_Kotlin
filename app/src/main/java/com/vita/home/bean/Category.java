@@ -8,75 +8,62 @@ import com.google.gson.annotations.SerializedName;
  * @Date: 2018-01-09 14:36
  * @Usage:
  */
-public class Category extends Base {
+public class Category {
+    private int id;
+    private String name;
+    private String description;
+    @SerializedName("articles_count")
+    private int articlesCount;
+    @SerializedName("created_at")
+    private String createdAt;
+    @SerializedName("updated_at")
+    private String updatedAt;
 
-    private DataBean data;
-
-    public DataBean getData() {
-        return data;
+    public int getId() {
+        return id;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static class DataBean {
-        private int id;
-        private String name;
-        private String description;
-        @SerializedName("articles_count")
-        private int articlesCount;
-        @SerializedName("created_at")
-        private String createdAt;
-        @SerializedName("updated_at")
-        private String updatedAt;
+    public String getName() {
+        return name;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public String getDescription() {
+        return description;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public int getArticlesCount() {
+        return articlesCount;
+    }
 
-        public String getDescription() {
-            return description;
-        }
+    public void setArticlesCount(int articlesCount) {
+        this.articlesCount = articlesCount;
+    }
 
-        public void setDescription(String description) {
-            this.description = description;
-        }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-        public int getArticlesCount() {
-            return articlesCount;
-        }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-        public void setArticlesCount(int articlesCount) {
-            this.articlesCount = articlesCount;
-        }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
-        }
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

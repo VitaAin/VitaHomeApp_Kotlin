@@ -2,6 +2,7 @@ package com.vita.home.api
 
 import com.vita.home.bean.Article
 import com.vita.home.bean.Articles
+import com.vita.home.bean.Wrap
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -22,10 +23,10 @@ val API_ROOT: String = "http://api.vitain.top/api/v1/"
 interface ApiService {
 
     @GET("articles")
-    fun getArticles(): Call<Articles>
+    fun getArticles(): Call<Wrap<Articles>>
 
-    @GET("article/{id}")
-    fun getArticle(@Path("id") id: Int): Call<Article>
+    @GET("articles/{id}")
+    fun getArticle(@Path("id") id: Int): Call<Wrap<Article>>
 
     class Factory {
         fun createApiService(): ApiService {

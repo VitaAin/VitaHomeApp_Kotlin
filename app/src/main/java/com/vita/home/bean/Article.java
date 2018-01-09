@@ -10,202 +10,190 @@ import java.util.List;
  * @Date: 2018-01-09 13:53
  * @Usage:
  */
-public class Article extends Base {
+public class Article {
 
-    private DataBean data;
+    private int id;
+    private String title;
+    private String body;
+    @SerializedName("user_id")
+    private int userId;
+    @SerializedName("last_comment_user_id")
+    private int lastCommentUserId;
+    @SerializedName("category_id")
+    private int categoryId;
+    @SerializedName("view_count")
+    private int viewCount;
+    @SerializedName("comments_count")
+    private int commentsCount;
+    @SerializedName("likes_count")
+    private int likesCount;
+    @SerializedName("close_comment")
+    private boolean closeComment;
+    @SerializedName("is_public")
+    private boolean isPublic;
+    @SerializedName("is_top")
+    private boolean isTop;
+    @SerializedName("is_excellent")
+    private boolean isExcellent;
+    @SerializedName("last_comment_time")
+    private String lastCommentTime;
+    @SerializedName("created_at")
+    private String createdAt;
+    @SerializedName("updated_at")
+    private String updatedAt;
+    private User user;
+    private Category category;
+    private List<Tag> tags;
 
-    public DataBean getData() {
-        return data;
+    public int getId() {
+        return id;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static class DataBean {
-        private int id;
-        private String title;
-        private String body;
-        @SerializedName("user_id")
-        private int userId;
-        @SerializedName("last_comment_user_id")
-        private int lastCommentUserId;
-        @SerializedName("category_id")
-        private int categoryId;
-        @SerializedName("view_count")
-        private int viewCount;
-        @SerializedName("comments_count")
-        private int commentsCount;
-        @SerializedName("likes_count")
-        private int likesCount;
-        @SerializedName("close_comment")
-        private boolean closeComment;
-        @SerializedName("is_public")
-        private boolean isPublic;
-        @SerializedName("is_top")
-        private boolean isTop;
-        @SerializedName("is_excellent")
-        private boolean isExcellent;
-        @SerializedName("last_comment_time")
-        private String lastCommentTime;
-        @SerializedName("created_at")
-        private String createdAt;
-        @SerializedName("updated_at")
-        private String updatedAt;
-        private User user;
-        private Category category;
-        private List<Tag> tags;
+    public String getTitle() {
+        return title;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public String getBody() {
+        return body;
+    }
 
-        public String getTitle() {
-            return title;
-        }
+    public void setBody(String body) {
+        this.body = body;
+    }
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
+    public int getUserId() {
+        return userId;
+    }
 
-        public String getBody() {
-            return body;
-        }
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-        public void setBody(String body) {
-            this.body = body;
-        }
+    public int getLastCommentUserId() {
+        return lastCommentUserId;
+    }
 
-        public int getUserId() {
-            return userId;
-        }
+    public void setLastCommentUserId(int lastCommentUserId) {
+        this.lastCommentUserId = lastCommentUserId;
+    }
 
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
+    public int getCategoryId() {
+        return categoryId;
+    }
 
-        public int getLastCommentUserId() {
-            return lastCommentUserId;
-        }
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 
-        public void setLastCommentUserId(int lastCommentUserId) {
-            this.lastCommentUserId = lastCommentUserId;
-        }
+    public int getViewCount() {
+        return viewCount;
+    }
 
-        public int getCategoryId() {
-            return categoryId;
-        }
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
 
-        public void setCategoryId(int categoryId) {
-            this.categoryId = categoryId;
-        }
+    public int getCommentsCount() {
+        return commentsCount;
+    }
 
-        public int getViewCount() {
-            return viewCount;
-        }
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
 
-        public void setViewCount(int viewCount) {
-            this.viewCount = viewCount;
-        }
+    public int getLikesCount() {
+        return likesCount;
+    }
 
-        public int getCommentsCount() {
-            return commentsCount;
-        }
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
 
-        public void setCommentsCount(int commentsCount) {
-            this.commentsCount = commentsCount;
-        }
+    public boolean isCloseComment() {
+        return closeComment;
+    }
 
-        public int getLikesCount() {
-            return likesCount;
-        }
+    public void setCloseComment(boolean closeComment) {
+        this.closeComment = closeComment;
+    }
 
-        public void setLikesCount(int likesCount) {
-            this.likesCount = likesCount;
-        }
+    public boolean isPublic() {
+        return isPublic;
+    }
 
-        public boolean isCloseComment() {
-            return closeComment;
-        }
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
 
-        public void setCloseComment(boolean closeComment) {
-            this.closeComment = closeComment;
-        }
+    public boolean isTop() {
+        return isTop;
+    }
 
-        public boolean isPublic() {
-            return isPublic;
-        }
+    public void setTop(boolean top) {
+        isTop = top;
+    }
 
-        public void setPublic(boolean aPublic) {
-            isPublic = aPublic;
-        }
+    public boolean isExcellent() {
+        return isExcellent;
+    }
 
-        public boolean isTop() {
-            return isTop;
-        }
+    public void setExcellent(boolean excellent) {
+        isExcellent = excellent;
+    }
 
-        public void setTop(boolean top) {
-            isTop = top;
-        }
+    public String getLastCommentTime() {
+        return lastCommentTime;
+    }
 
-        public boolean isExcellent() {
-            return isExcellent;
-        }
+    public void setLastCommentTime(String lastCommentTime) {
+        this.lastCommentTime = lastCommentTime;
+    }
 
-        public void setExcellent(boolean excellent) {
-            isExcellent = excellent;
-        }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-        public String getLastCommentTime() {
-            return lastCommentTime;
-        }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-        public void setLastCommentTime(String lastCommentTime) {
-            this.lastCommentTime = lastCommentTime;
-        }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-        public String getCreatedAt() {
-            return createdAt;
-        }
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
+    public User getUser() {
+        return user;
+    }
 
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
-        }
+    public Category getCategory() {
+        return category;
+    }
 
-        public User getUser() {
-            return user;
-        }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-        public void setUser(User user) {
-            this.user = user;
-        }
+    public List<Tag> getTags() {
+        return tags;
+    }
 
-        public Category getCategory() {
-            return category;
-        }
-
-        public void setCategory(Category category) {
-            this.category = category;
-        }
-
-        public List<Tag> getTags() {
-            return tags;
-        }
-
-        public void setTags(List<Tag> tags) {
-            this.tags = tags;
-        }
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }
