@@ -21,7 +21,7 @@ import retrofit2.Response
 class ArticlesActivity : AppCompatActivity() {
 
     private val TAG = "ArticlesActivity"
-    private var mArticleList: List<Articles.DataBeanX.DataBean>? = ArrayList()
+    private var mArticleList: List<Articles.DataBean.DataBean>? = ArrayList()
     private var mArticlesRvAdapter: ArticlesRvAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +62,9 @@ class ArticlesActivity : AppCompatActivity() {
     }
 }
 
-class ArticlesRvAdapter(ctx: Context, dataList: List<Articles.DataBeanX.DataBean>?, layoutId: Int)
-    : RvCommonAdapter<Articles.DataBeanX.DataBean>(ctx, dataList, layoutId) {
-    override fun convert(holder: ViewHolder, item: Articles.DataBeanX.DataBean, position: Int) {
+class ArticlesRvAdapter(ctx: Context, dataList: List<Articles.DataBean.DataBean>?, layoutId: Int)
+    : RvCommonAdapter<Articles.DataBean.DataBean>(ctx, dataList, layoutId) {
+    override fun convert(holder: ViewHolder, item: Articles.DataBean.DataBean, position: Int) {
         holder.setText(R.id.tvArticleTitle, item.title!!)
     }
 }

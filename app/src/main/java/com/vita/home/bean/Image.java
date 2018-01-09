@@ -3,14 +3,14 @@ package com.vita.home.bean;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @FileName: com.vita.home.bean.Tag.java
+ * @FileName: com.vita.home.bean.Image.java
  * @Author: Vita
- * @Date: 2018-01-09 14:36
+ * @Date: 2018-01-09 15:21
  * @Usage:
  */
-public class Tag extends Base {
+public class Image extends Base {
 
-    private DataBean data;
+    public DataBean data;
 
     public DataBean getData() {
         return data;
@@ -22,10 +22,12 @@ public class Tag extends Base {
 
     public static class DataBean {
         private int id;
+        @SerializedName("user_id")
+        private int userId;
+        private String uid;
         private String name;
-        private String description;
-        @SerializedName("articles_count")
-        private int articlesCount;
+        private String url;
+        private int size;
         @SerializedName("created_at")
         private String createdAt;
         @SerializedName("updated_at")
@@ -39,6 +41,22 @@ public class Tag extends Base {
             this.id = id;
         }
 
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public String getUid() {
+            return uid;
+        }
+
+        public void setUid(String uid) {
+            this.uid = uid;
+        }
+
         public String getName() {
             return name;
         }
@@ -47,20 +65,20 @@ public class Tag extends Base {
             this.name = name;
         }
 
-        public String getDescription() {
-            return description;
+        public String getUrl() {
+            return url;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setUrl(String url) {
+            this.url = url;
         }
 
-        public int getArticlesCount() {
-            return articlesCount;
+        public int getSize() {
+            return size;
         }
 
-        public void setArticlesCount(int articlesCount) {
-            this.articlesCount = articlesCount;
+        public void setSize(int size) {
+            this.size = size;
         }
 
         public String getCreatedAt() {
@@ -79,5 +97,4 @@ public class Tag extends Base {
             this.updatedAt = updatedAt;
         }
     }
-
 }
