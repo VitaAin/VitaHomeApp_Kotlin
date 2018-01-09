@@ -15,7 +15,7 @@ import com.vita.home.api.Api
 import com.vita.home.bean.Article
 import com.vita.home.bean.Articles
 import com.vita.home.bean.Wrap
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_articles.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,7 +28,7 @@ class ArticlesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_articles)
 
         setupArticlesRv()
         initData()
