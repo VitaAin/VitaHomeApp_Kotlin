@@ -9,7 +9,7 @@
     tools:context="com.vita.home.activity.ArticleShowActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+        android:id="@+id/ablArticleShow"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
@@ -24,7 +24,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/tbArticleShow"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -36,11 +36,11 @@
     <include layout="@layout/content_article_show"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fabInArticleShow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
+        app:layout_anchor="@id/ablArticleShow"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_dialog_email"/>
 

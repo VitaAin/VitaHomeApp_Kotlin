@@ -10,9 +10,9 @@
 
     <style name="VitaHomeAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorMyPrimary</item>
+        <item name="colorPrimaryDark">@color/colorMyPrimaryDark</item>
+        <item name="colorAccent">@color/colorMyAccent</item>
     </style>
 
     <style name="VitaHomeAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

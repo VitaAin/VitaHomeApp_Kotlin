@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
-import com.google.gson.Gson
+import com.bumptech.glide.Glide
 
 import com.vita.home.R
 import com.vita.home.api.Api
@@ -27,10 +27,10 @@ class ArticleShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_article_show)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById(R.id.tbArticleShow) as Toolbar
         setSupportActionBar(toolbar)
 
-        val fab = findViewById(R.id.fab) as FloatingActionButton
+        val fab = findViewById(R.id.fabInArticleShow) as FloatingActionButton
         fab.setOnClickListener(View.OnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -49,7 +49,7 @@ class ArticleShowActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<Wrap<Article>>, response: Response<Wrap<Article>>) {
-                Log.i(TAG, "onResponse: " + Gson().toJson(response.body()))
+                Log.i(TAG, "onResponse: " + response.body()?.message)
                 if (response.body()?.status == 1) {
                     article = response.body()?.data
                     fillArticle()
@@ -61,5 +61,11 @@ class ArticleShowActivity : AppCompatActivity() {
     fun fillArticle() {
         ctlArticleTitle.title = article?.title
         tvArticleBody.text = article?.body
+        Glide.with(this)
+                .load(article?.user?.avatar)
+                .centerCrop()
+                .into(ivUserAvatar)
+        tvUserName.text = article?.user?.name
+        tvCreatedTime.text = article?.createdAt
     }
 }
