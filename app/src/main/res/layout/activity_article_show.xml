@@ -9,14 +9,14 @@
     tools:context="com.vita.home.activity.ArticleShowActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/ablArticleShow"
+        android:id="@+id/abl_article_show"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/VitaHomeAppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/ctlArticleTitle"
+            android:id="@+id/ctl_article_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -24,7 +24,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/tbArticleShow"
+                android:id="@+id/tb_article_show"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -36,11 +36,11 @@
     <include layout="@layout/content_article_show"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabInArticleShow"
+        android:id="@+id/fab_in_article_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/ablArticleShow"
+        app:layout_anchor="@id/abl_article_show"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_dialog_email"/>
 

@@ -16,14 +16,20 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.vita.home.R
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
 import com.vita.home.adapter.commonrvadapter.ViewHolder
 import com.vita.home.api.Api
 import com.vita.home.bean.Article
 import com.vita.home.bean.Articles
+import com.vita.home.bean.User
 import com.vita.home.bean.Wrap
+import com.vita.home.utils.SPUtils
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,13 +55,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupFab()
         setupNavView()
         setupArticlesRv()
+        fillUserInDrawer()
     }
 
     private fun setupToolbar() {
-        val toolbar = findViewById(R.id.tbMain) as Toolbar
+        val toolbar = findViewById(R.id.tb_main) as Toolbar
         setSupportActionBar(toolbar)
 
-        val drawer = findViewById(R.id.drawerMain) as DrawerLayout
+        val drawer = findViewById(R.id.drawer_main) as DrawerLayout
         val toggle = ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.setDrawerListener(toggle)
@@ -63,23 +70,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setupFab() {
-        val fab = findViewById(R.id.fabInMain) as FloatingActionButton
+        val fab = findViewById(R.id.fab_in_main) as FloatingActionButton
         fab.setOnClickListener {
             startActivity(Intent(this@MainActivity, AddArticleActivity::class.java))
         }
     }
 
     private fun setupNavView() {
-        val navigationView = findViewById(R.id.navViewMain) as NavigationView
+        val navigationView = findViewById(R.id.nav_view_main) as NavigationView
         navigationView.setNavigationItemSelectedListener(this@MainActivity)
     }
 
     private fun setupArticlesRv() {
-        rvAllArticles.layoutManager = LinearLayoutManager(this)
-        rvAllArticles.hasFixedSize()
-        rvAllArticles.itemAnimator = DefaultItemAnimator()
+        rv_all_articles.layoutManager = LinearLayoutManager(this)
+        rv_all_articles.hasFixedSize()
+        rv_all_articles.itemAnimator = DefaultItemAnimator()
         mArticlesRvAdapter = ArticlesRvAdapter(this, mArticleList, R.layout.item_article)
-        rvAllArticles.adapter = mArticlesRvAdapter
+        rv_all_articles.adapter = mArticlesRvAdapter
         mArticlesRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@MainActivity, ArticleShowActivity::class.java)
@@ -89,8 +96,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
     }
 
+    private fun fillUserInDrawer() {
+        var userJson: String = SPUtils.get(this, "User", "") as String
+        val user = Gson().fromJson(userJson, User::class.java)
+        Glide.with(this).load(user.avatar).into(nav_view_main.getHeaderView(0).iv_avatar)
+        nav_view_main.getHeaderView(0).tv_username.text = user.name
+        nav_view_main.getHeaderView(0).tv_email.text = user.email
+    }
+
     private fun initData() {
-        Api.get().getArticles(object : Callback<Wrap<Articles>> {
+        Api.get().getArticles(null, object : Callback<Wrap<Articles>> {
             override fun onFailure(call: Call<Wrap<Articles>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
             }
@@ -106,7 +121,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        val drawer = findViewById(R.id.drawerMain) as DrawerLayout
+        val drawer = findViewById(R.id.drawer_main) as DrawerLayout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
@@ -116,7 +131,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
@@ -135,23 +150,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        val id = item.itemId
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        when (item.itemId) {
+        // Handle the camera action
+            R.id.nav_my_articles -> {
+            }
+            R.id.nav_my_comments -> {
+            }
+            R.id.nav_my_likes -> {
+            }
+            R.id.nav_my_fans -> {
+            }
+            R.id.nav_my_images -> {
+            }
+            R.id.nav_my_notifications -> {
+            }
+            else -> {
+            }
         }
-
-        val drawer = findViewById(R.id.drawerMain) as DrawerLayout
+        val drawer = findViewById(R.id.drawer_main) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
@@ -160,6 +176,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 class ArticlesRvAdapter(ctx: Context, dataList: List<Article>?, layoutId: Int)
     : RvCommonAdapter<Article>(ctx, dataList, layoutId) {
     override fun convert(holder: ViewHolder, item: Article, position: Int) {
-        holder.setText(R.id.tvArticleTitle, item.title!!)
+        holder.setText(R.id.tv_article_title, item.title!!)
     }
 }

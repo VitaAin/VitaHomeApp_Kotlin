@@ -9,46 +9,49 @@ import com.google.gson.annotations.SerializedName;
  * @Usage:
  */
 public class User {
-    int id;
+    private int id;
     @SerializedName("github_id")
-    int githubId;
-    String name;
-    String email;
-    String avatar;
+    private int githubId;
+    private String name;
+    private String email;
+    private String avatar;
     @SerializedName("real_name")
-    String realName;
-    String sex;
-    String qq;
-    String city;
-    String introduction;
+    private String realName;
+    private String sex;
+    private String qq;
+    private String city;
+    private String introduction;
     @SerializedName("articles_count")
-    int articlesCount;
+    private int articlesCount;
     @SerializedName("comments_count")
-    int commentsCount;
+    private int commentsCount;
     @SerializedName("images_count")
-    int imagesCount;
+    private int imagesCount;
     @SerializedName("words_count")
-    int wordsCount;
+    private int wordsCount;
     @SerializedName("likes_count")
-    int likesCount;
+    private int likesCount;
     @SerializedName("followers_count")
-    int followersCount;
+    private int followersCount;
     @SerializedName("followings_count")
-    int followingsCount;
+    private int followingsCount;
     @SerializedName("is_banned")
-    int isBanned;
+    private int isBanned;
     @SerializedName("confirm_code")
-    String confirmCode;
+    private String confirmCode;
     @SerializedName("is_confirmed")
-    int isConfirmed;
+    private int isConfirmed;
     @SerializedName("last_actived_at")
-    String lastActivedAt;
+    private String lastActivedAt;
     @SerializedName("created_at")
-    String createdAt;
+    private String createdAt;
     @SerializedName("updated_at")
-    String updatedAt;
+    private String updatedAt;
     @SerializedName("deleted_at")
-    String deletedAt;
+    private String deletedAt;
+
+    @SerializedName("jwt_token")
+    private JwtToken jwtToken;
 
     public int getId() {
         return id;
@@ -240,5 +243,46 @@ public class User {
 
     public void setDeletedAt(String deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public JwtToken getJwtToken() {
+        return jwtToken;
+    }
+
+    public void setJwtToken(JwtToken jwtToken) {
+        this.jwtToken = jwtToken;
+    }
+
+    public static class JwtToken {
+        @SerializedName("access_token")
+        private String accessToken;
+        @SerializedName("expires_in")
+        private Long expiresIn;
+        @SerializedName("token_type")
+        private String tokenType;
+
+        public String getAccessToken() {
+            return accessToken;
+        }
+
+        public void setAccessToken(String accessToken) {
+            this.accessToken = accessToken;
+        }
+
+        public Long getExpiresIn() {
+            return expiresIn;
+        }
+
+        public void setExpiresIn(Long expiresIn) {
+            this.expiresIn = expiresIn;
+        }
+
+        public String getTokenType() {
+            return tokenType;
+        }
+
+        public void setTokenType(String tokenType) {
+            this.tokenType = tokenType;
+        }
     }
 }

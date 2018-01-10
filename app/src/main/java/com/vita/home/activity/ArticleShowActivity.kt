@@ -27,10 +27,10 @@ class ArticleShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_article_show)
-        val toolbar = findViewById(R.id.tbArticleShow) as Toolbar
+        val toolbar = findViewById(R.id.tb_article_show) as Toolbar
         setSupportActionBar(toolbar)
 
-        val fab = findViewById(R.id.fabInArticleShow) as FloatingActionButton
+        val fab = findViewById(R.id.fab_in_article_show) as FloatingActionButton
         fab.setOnClickListener(View.OnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -59,13 +59,13 @@ class ArticleShowActivity : AppCompatActivity() {
     }
 
     fun fillArticle() {
-        ctlArticleTitle.title = article?.title
-        tvArticleBody.text = article?.body
+        ctl_article_title.title = article?.title
+        tv_article_body.text = article?.body
         Glide.with(this)
                 .load(article?.user?.avatar)
                 .centerCrop()
-                .into(ivUserAvatar)
-        tvUserName.text = article?.user?.name
-        tvCreatedTime.text = article?.createdAt
+                .into(iv_user_avatar)
+        tv_user_name.text = article?.user?.name
+        tv_created_at.text = article?.createdAt
     }
 }
