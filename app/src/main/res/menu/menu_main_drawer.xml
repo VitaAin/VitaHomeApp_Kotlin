@@ -3,14 +3,14 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_my_articles"
+            android:id="@+id/nav_personal_center"
             android:icon="@drawable/ic_reorder_black_24dp"
             android:title="My Articles"/>
         <item
-            android:id="@+id/nav_my_comments"
+            android:id="@+id/nav_edit_info"
             android:icon="@drawable/ic_message_black_24dp"
             android:title="My Comments"/>
-        <item
+        <!--<item
             android:id="@+id/nav_my_likes"
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="My Likes"/>
@@ -25,7 +25,7 @@
         <item
             android:id="@+id/nav_my_notifications"
             android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="My Notifications"/>
+            android:title="My Notifications"/>-->
     </group>
 
     <item android:title="Communicate">

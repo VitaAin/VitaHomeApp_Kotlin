@@ -152,24 +152,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
         // Handle the camera action
-            R.id.nav_my_articles -> {
+            R.id.nav_personal_center -> {
+                jumpTo(PersonalCenterActivity::class.java)
             }
-            R.id.nav_my_comments -> {
+            R.id.nav_edit_info -> {
             }
-            R.id.nav_my_likes -> {
-            }
-            R.id.nav_my_fans -> {
-            }
-            R.id.nav_my_images -> {
-            }
-            R.id.nav_my_notifications -> {
-            }
+//            R.id.nav_my_likes -> {
+//            }
+//            R.id.nav_my_fans -> {
+//            }
+//            R.id.nav_my_images -> {
+//            }
+//            R.id.nav_my_notifications -> {
+//            }
             else -> {
+                // Do nothing
             }
         }
-        val drawer = findViewById(R.id.drawer_main) as DrawerLayout
-        drawer.closeDrawer(GravityCompat.START)
+//        val drawer = findViewById(R.id.drawer_main) as DrawerLayout
+//        drawer.closeDrawer(GravityCompat.START)
+
         return true
+    }
+
+    private fun jumpTo(cls: Class<*>) {
+        startActivity(Intent(this@MainActivity, cls))
     }
 }
 

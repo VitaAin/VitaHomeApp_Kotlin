@@ -11,13 +11,13 @@
               tools:context="com.vita.home.activity.LoginActivity">
 
     <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/pb_login"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"/>
+    <!--<ProgressBar-->
+        <!--android:id="@+id/pb_login"-->
+        <!--style="?android:attr/progressBarStyleLarge"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:visibility="gone"/>-->
 
     <ScrollView
         android:id="@+id/login_form"
@@ -34,8 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
-                    android:id="@+id/actv_email"
+                <EditText
+                    android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
@@ -65,17 +65,31 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_sign_in"
-                style="?android:textAppearanceSmall"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="#4CAF50"
-                android:text="@string/action_sign_in_short"
-                android:textAllCaps="false"
-                android:textColor="#FFF"
-                android:textStyle="bold"/>
+                android:layout_height="wrap_content">
+
+                <!-- Login progress -->
+                <ProgressBar
+                    android:id="@+id/pb_login"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/btn_sign_in"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="#4CAF50"
+                    android:text="@string/action_sign_in_short"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textStyle="bold"/>
+            </FrameLayout>
 
         </LinearLayout>
     </ScrollView>
