@@ -42,4 +42,7 @@ class Api private constructor() {
 
     fun getTags(listener: Callback<Wrap<List<Tag>>>)
             = mApiService.getTags().enqueue(listener)
+
+    fun getUserArticles(id: Int, listener: Callback<Wrap<Articles>>)
+            = mApiService.getUserArticles(id).enqueue(listener)
 }

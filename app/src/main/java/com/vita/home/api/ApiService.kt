@@ -43,6 +43,9 @@ interface ApiService {
     @GET("tags")
     fun getTags(): Call<Wrap<List<Tag>>>
 
+    @GET("users/{id}/articles")
+    fun getUserArticles(@Path("id") id: Int): Call<Wrap<Articles>>
+
     class Factory {
         fun createApiService(): ApiService {
             val client = OkHttpClient.Builder()
