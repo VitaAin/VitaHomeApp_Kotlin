@@ -37,7 +37,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initData() {
-        Api.get().getCategories(object : Callback<Wrap<List<Category>>> {
+        Api.get(this).getCategories(object : Callback<Wrap<List<Category>>> {
             override fun onFailure(call: Call<Wrap<List<Category>>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
             }
@@ -47,7 +47,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
                 fillCategories(response.body()?.data)
             }
         })
-        Api.get().getTags(object : Callback<Wrap<List<Tag>>> {
+        Api.get(this).getTags(object : Callback<Wrap<List<Tag>>> {
             override fun onFailure(call: Call<Wrap<List<Tag>>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
             }

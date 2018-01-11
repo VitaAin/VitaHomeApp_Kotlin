@@ -5,17 +5,11 @@ import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
 import android.support.v7.app.AppCompatActivity
 
-import android.os.AsyncTask
-
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 
 import com.vita.home.R
@@ -27,6 +21,7 @@ import com.vita.home.api.Api
 import com.vita.home.bean.LoginRequest
 import com.vita.home.bean.User
 import com.vita.home.bean.Wrap
+import com.vita.home.constant.Key
 import com.vita.home.utils.SPUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
@@ -100,7 +95,7 @@ class LoginActivity : AppCompatActivity() {
     private fun login(email: String, password: String) {
         btn_sign_in.isClickable = false
         val account = LoginRequest(email, password)
-        Api.get().login(account, object : Callback<Wrap<User>> {
+        Api.get(this).login(account, object : Callback<Wrap<User>> {
             override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {
                 Log.i(TAG, "onResponse: " + response.body()?.message)
                 loginFinished()
@@ -122,9 +117,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginSuccessfully(user: User) {
-        SPUtils.put(this, "UserId", user.id)
-        SPUtils.put(this, "User", Gson().toJson(user))
-        SPUtils.put(this, "Token", user.jwtToken.accessToken)
+        SPUtils.put(this, Key.KEY_USER_ID, user.id)
+        SPUtils.put(this, Key.KEY_USER, Gson().toJson(user))
+        SPUtils.put(this, Key.KEY_TOKEN, user.jwtToken!!.accessToken)
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
     }
 

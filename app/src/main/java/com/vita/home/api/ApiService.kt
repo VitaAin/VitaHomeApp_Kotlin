@@ -1,7 +1,11 @@
 package com.vita.home.api
 
+import android.content.Context
 import com.vita.home.bean.*
+import com.vita.home.helper.AccountHelper
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -43,20 +47,40 @@ interface ApiService {
     @GET("tags")
     fun getTags(): Call<Wrap<List<Tag>>>
 
+    @GET("users/{id}")
+    fun getUser(@Path("id") id: Int): Call<Wrap<User>>
+
     @GET("users/{id}/articles")
-    fun getUserArticles(@Path("id") id: Int): Call<Wrap<Articles>>
+    fun getUserArticles(@Path("id") id: Int): Call<Wrap<List<Article>>>
+
+    @GET("users/{id}/replies")
+    fun getUserReplies(@Path("id") id: Int): Call<Wrap<List<Reply>>>
+
+    @GET("users/{id}/like_articles")
+    fun getUserLikeArticles(@Path("id") id: Int): Call<Wrap<List<Article>>>
+
+    @GET("users/{id}/follow_users")
+    fun getUserFollowUsers(@Path("id")id: Int):Call<Wrap<List<User>>>
 
     class Factory {
-        fun createApiService(): ApiService {
+        fun createApiService(ctx: Context): ApiService {
             val client = OkHttpClient.Builder()
                     .readTimeout(15, TimeUnit.SECONDS)
                     .connectTimeout(15, TimeUnit.SECONDS)
                     // 这里可以拦截以添加公共参数
-//                    .addInterceptor(object : Interceptor {
-//                        override fun intercept(chain: Interceptor.Chain?): Response {
-//                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//                        }
-//                    })
+                    .addInterceptor { chain ->
+                        val request = chain.request()
+                        if (AccountHelper.check(ctx)) {
+                            val requestNew = request.newBuilder()
+                                    .header("Accept", "application/json")
+                                    .header("Authorization", "Bearer " + AccountHelper.getToken(ctx))
+                                    .method(request.method(), request.body())
+                                    .build()
+                            chain.proceed(requestNew)
+                        } else {
+                            chain.proceed(request)
+                        }
+                    }
                     .build()
 
             val retrofit = Retrofit.Builder().baseUrl(API_ROOT)

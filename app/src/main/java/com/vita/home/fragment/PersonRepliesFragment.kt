@@ -17,7 +17,7 @@ import com.vita.home.activity.ArticleShowActivity
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
 import com.vita.home.adapter.commonrvadapter.ViewHolder
 import com.vita.home.api.Api
-import com.vita.home.bean.Article
+import com.vita.home.bean.Reply
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
 import kotlinx.android.synthetic.main.fragment_person_articles.*
@@ -25,15 +25,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PersonArticlesFragment : Fragment() {
+class PersonRepliesFragment : Fragment() {
 
-    private val TAG = "PersonArticlesFragment"
+    private val TAG = "PersonRepliesFragment"
 
     private var mListener: OnFragmentInteractionListener? = null
 
     private var mUserId: Int = 0
-    private var mUserArticleList: List<Article>? = ArrayList()
-    private var mUserArticlesRvAdapter: UserArticlesRvAdapter? = null
+    private var mUserReplyList: List<Reply>? = ArrayList()
+    private var mUserRepliesRvAdapter: UserRepliesRvAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,29 +68,28 @@ class PersonArticlesFragment : Fragment() {
         rv_person_articles.layoutManager = LinearLayoutManager(context)
         rv_person_articles.hasFixedSize()
         rv_person_articles.itemAnimator = DefaultItemAnimator()
-        mUserArticlesRvAdapter = UserArticlesRvAdapter(context, mUserArticleList, R.layout.item_person_article)
-        rv_person_articles.adapter = mUserArticlesRvAdapter
-        mUserArticlesRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
+        mUserRepliesRvAdapter = UserRepliesRvAdapter(context, mUserReplyList, R.layout.item_person_reply)
+        rv_person_articles.adapter = mUserRepliesRvAdapter
+        mUserRepliesRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ArticleShowActivity::class.java)
-                intent.putExtra(Key.KEY_ARTICLE_ID, mUserArticleList?.get(position)?.id)
+                intent.putExtra(Key.KEY_ARTICLE_ID, mUserReplyList?.get(position)?.commentable?.id)
                 startActivity(intent)
             }
         })
     }
 
     private fun initData() {
-        Log.i(TAG, "userId: " + mUserId)
-        Api.get(context).getUserArticles(mUserId, object : Callback<Wrap<List<Article>>> {
-            override fun onFailure(call: Call<Wrap<List<Article>>>, t: Throwable) {
+        Api.get(context).getUserReplies(mUserId, object : Callback<Wrap<List<Reply>>> {
+            override fun onFailure(call: Call<Wrap<List<Reply>>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
             }
 
-            override fun onResponse(call: Call<Wrap<List<Article>>>, response: Response<Wrap<List<Article>>>) {
+            override fun onResponse(call: Call<Wrap<List<Reply>>>, response: Response<Wrap<List<Reply>>>) {
                 Log.i(TAG, "onResponse: " + response.body()?.message)
                 if (response.body()?.status == 1) {
-                    mUserArticleList = response.body()?.data
-                    mUserArticlesRvAdapter?.replaceData(mUserArticleList)
+                    mUserReplyList = response.body()?.data
+                    mUserRepliesRvAdapter?.replaceData(mUserReplyList)
                 }
             }
         })
@@ -132,8 +131,8 @@ class PersonArticlesFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(userId: Int): PersonArticlesFragment {
-            val fragment = PersonArticlesFragment()
+        fun newInstance(userId: Int): PersonRepliesFragment {
+            val fragment = PersonRepliesFragment()
             val args = Bundle()
             args.putInt(Key.KEY_USER_ID, userId)
             fragment.arguments = args
@@ -142,11 +141,9 @@ class PersonArticlesFragment : Fragment() {
     }
 }
 
-class UserArticlesRvAdapter(ctx: Context, dataList: List<Article>?, layoutId: Int)
-    : RvCommonAdapter<Article>(ctx, dataList, layoutId) {
-    override fun convert(holder: ViewHolder, item: Article, position: Int) {
-        holder.setText(R.id.tv_article_title, item.title!!)
-        holder.setText(R.id.tv_comments_count, item.commentsCount.toString())
-        holder.setText(R.id.tv_likes_count, item.likesCount.toString())
+class UserRepliesRvAdapter(ctx: Context, dataList: List<Reply>?, layoutId: Int)
+    : RvCommonAdapter<Reply>(ctx, dataList, layoutId) {
+    override fun convert(holder: ViewHolder, item: Reply, position: Int) {
+        holder.setText(R.id.tv_reply_content, item.content!!)
     }
 }

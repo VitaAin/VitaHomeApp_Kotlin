@@ -17,16 +17,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import com.vita.home.R
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
 import com.vita.home.adapter.commonrvadapter.ViewHolder
 import com.vita.home.api.Api
 import com.vita.home.bean.Article
 import com.vita.home.bean.Articles
-import com.vita.home.bean.User
 import com.vita.home.bean.Wrap
-import com.vita.home.utils.SPUtils
+import com.vita.home.constant.Key
+import com.vita.home.helper.AccountHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
@@ -90,22 +89,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mArticlesRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@MainActivity, ArticleShowActivity::class.java)
-                intent.putExtra("ArticleId", mArticleList?.get(position)?.id)
+                intent.putExtra(Key.KEY_ARTICLE_ID, mArticleList?.get(position)?.id)
                 startActivity(intent)
             }
         })
     }
 
     private fun fillUserInDrawer() {
-        var userJson: String = SPUtils.get(this, "User", "") as String
-        val user = Gson().fromJson(userJson, User::class.java)
+        val user = AccountHelper.getUser(this)
         Glide.with(this).load(user.avatar).into(nav_view_main.getHeaderView(0).iv_avatar)
         nav_view_main.getHeaderView(0).tv_username.text = user.name
         nav_view_main.getHeaderView(0).tv_email.text = user.email
     }
 
     private fun initData() {
-        Api.get().getArticles(null, object : Callback<Wrap<Articles>> {
+        Api.get(this).getArticles(null, object : Callback<Wrap<Articles>> {
             override fun onFailure(call: Call<Wrap<Articles>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
             }
@@ -151,20 +149,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-        // Handle the camera action
             R.id.nav_personal_center -> {
-                jumpTo(PersonalCenterActivity::class.java)
+                var intent = Intent(this@MainActivity, PersonalCenterActivity::class.java)
+                intent.putExtra(Key.KEY_USER_ID, AccountHelper.getUserId(this))
+                startActivity(intent)
             }
             R.id.nav_edit_info -> {
             }
-//            R.id.nav_my_likes -> {
-//            }
-//            R.id.nav_my_fans -> {
-//            }
-//            R.id.nav_my_images -> {
-//            }
-//            R.id.nav_my_notifications -> {
-//            }
             else -> {
                 // Do nothing
             }

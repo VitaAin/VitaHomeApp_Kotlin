@@ -1,5 +1,6 @@
 package com.vita.home.api
 
+import android.content.Context
 import com.vita.home.bean.*
 import retrofit2.Callback
 
@@ -10,16 +11,20 @@ import retrofit2.Callback
  * @Date: 2018-01-08 17:51
  * @Usage:
  */
-class Api private constructor() {
+class Api private constructor(ctx: Context) {
 
-    private var mApiService = ApiService.Factory().createApiService()
+    private var mApiService = ApiService.Factory().createApiService(ctx)
 
     companion object {
-        fun get(): Api = Instance.api
+        private var mContext: Context? = null
+        fun get(ctx: Context): Api {
+            mContext = ctx
+            return Instance.api
+        }
     }
 
     private object Instance {
-        val api = Api()
+        val api = Api(mContext!!)
     }
 
     fun login(account: LoginRequest, listener: Callback<Wrap<User>>)
@@ -43,6 +48,18 @@ class Api private constructor() {
     fun getTags(listener: Callback<Wrap<List<Tag>>>)
             = mApiService.getTags().enqueue(listener)
 
-    fun getUserArticles(id: Int, listener: Callback<Wrap<Articles>>)
+    fun getUser(id: Int, listener: Callback<Wrap<User>>)
+            = mApiService.getUser(id).enqueue(listener)
+
+    fun getUserArticles(id: Int, listener: Callback<Wrap<List<Article>>>)
             = mApiService.getUserArticles(id).enqueue(listener)
+
+    fun getUserReplies(id: Int, listener: Callback<Wrap<List<Reply>>>)
+            = mApiService.getUserReplies(id).enqueue(listener)
+
+    fun getUserLikeArticles(id: Int, listener: Callback<Wrap<List<Article>>>)
+            = mApiService.getUserLikeArticles(id).enqueue(listener)
+
+    fun getUserFollowUsers(id: Int, listener: Callback<Wrap<List<User>>>)
+            = mApiService.getUserFollowUsers(id).enqueue(listener)
 }

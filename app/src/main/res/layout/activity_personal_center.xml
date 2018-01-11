@@ -23,20 +23,22 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <!--<android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/VitaHomeAppTheme.PopupOverlay"/>-->
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tl_personal_center"
+            <include layout="@layout/content_personal_center_top"/>
+            <!--<include-->
+                <!--layout="@layout/content_personal_center_top"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="?attr/actionBarSize"-->
+                <!--app:layout_collapseMode="parallax"/>-->
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_personal_center"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/VitaHomeAppTheme.PopupOverlay"/>
-
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_personal_center"/>

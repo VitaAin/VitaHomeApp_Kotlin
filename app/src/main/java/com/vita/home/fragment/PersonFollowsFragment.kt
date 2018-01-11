@@ -11,13 +11,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 
 import com.vita.home.R
-import com.vita.home.activity.ArticleShowActivity
+import com.vita.home.activity.PersonalCenterActivity
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
 import com.vita.home.adapter.commonrvadapter.ViewHolder
 import com.vita.home.api.Api
-import com.vita.home.bean.Article
+import com.vita.home.bean.User
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
 import kotlinx.android.synthetic.main.fragment_person_articles.*
@@ -25,15 +26,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PersonArticlesFragment : Fragment() {
+class PersonFollowsFragment : Fragment() {
 
-    private val TAG = "PersonArticlesFragment"
+    private val TAG = "PersonFollowsFragment"
 
     private var mListener: OnFragmentInteractionListener? = null
 
     private var mUserId: Int = 0
-    private var mUserArticleList: List<Article>? = ArrayList()
-    private var mUserArticlesRvAdapter: UserArticlesRvAdapter? = null
+    private var mUserFollowsList: List<User>? = ArrayList()
+    private var mUserFollowsRvAdapter: UserFollowsRvAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,29 +69,28 @@ class PersonArticlesFragment : Fragment() {
         rv_person_articles.layoutManager = LinearLayoutManager(context)
         rv_person_articles.hasFixedSize()
         rv_person_articles.itemAnimator = DefaultItemAnimator()
-        mUserArticlesRvAdapter = UserArticlesRvAdapter(context, mUserArticleList, R.layout.item_person_article)
-        rv_person_articles.adapter = mUserArticlesRvAdapter
-        mUserArticlesRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
+        mUserFollowsRvAdapter = UserFollowsRvAdapter(context, mUserFollowsList, R.layout.item_person_follow)
+        rv_person_articles.adapter = mUserFollowsRvAdapter
+        mUserFollowsRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, ArticleShowActivity::class.java)
-                intent.putExtra(Key.KEY_ARTICLE_ID, mUserArticleList?.get(position)?.id)
+                val intent = Intent(activity, PersonalCenterActivity::class.java)
+                intent.putExtra(Key.KEY_USER_ID, mUserFollowsList?.get(position)?.id)
                 startActivity(intent)
             }
         })
     }
 
     private fun initData() {
-        Log.i(TAG, "userId: " + mUserId)
-        Api.get(context).getUserArticles(mUserId, object : Callback<Wrap<List<Article>>> {
-            override fun onFailure(call: Call<Wrap<List<Article>>>, t: Throwable) {
+        Api.get(context).getUserFollowUsers(mUserId, object : Callback<Wrap<List<User>>> {
+            override fun onFailure(call: Call<Wrap<List<User>>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
             }
 
-            override fun onResponse(call: Call<Wrap<List<Article>>>, response: Response<Wrap<List<Article>>>) {
+            override fun onResponse(call: Call<Wrap<List<User>>>, response: Response<Wrap<List<User>>>) {
                 Log.i(TAG, "onResponse: " + response.body()?.message)
                 if (response.body()?.status == 1) {
-                    mUserArticleList = response.body()?.data
-                    mUserArticlesRvAdapter?.replaceData(mUserArticleList)
+                    mUserFollowsList = response.body()?.data
+                    mUserFollowsRvAdapter?.replaceData(mUserFollowsList)
                 }
             }
         })
@@ -132,8 +132,8 @@ class PersonArticlesFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(userId: Int): PersonArticlesFragment {
-            val fragment = PersonArticlesFragment()
+        fun newInstance(userId: Int): PersonFollowsFragment {
+            val fragment = PersonFollowsFragment()
             val args = Bundle()
             args.putInt(Key.KEY_USER_ID, userId)
             fragment.arguments = args
@@ -142,11 +142,10 @@ class PersonArticlesFragment : Fragment() {
     }
 }
 
-class UserArticlesRvAdapter(ctx: Context, dataList: List<Article>?, layoutId: Int)
-    : RvCommonAdapter<Article>(ctx, dataList, layoutId) {
-    override fun convert(holder: ViewHolder, item: Article, position: Int) {
-        holder.setText(R.id.tv_article_title, item.title!!)
-        holder.setText(R.id.tv_comments_count, item.commentsCount.toString())
-        holder.setText(R.id.tv_likes_count, item.likesCount.toString())
+class UserFollowsRvAdapter(private val ctx: Context, dataList: List<User>?, layoutId: Int)
+    : RvCommonAdapter<User>(ctx, dataList, layoutId) {
+    override fun convert(holder: ViewHolder, item: User, position: Int) {
+        Glide.with(ctx).load(item.avatar).into(holder.getView(R.id.iv_follow_avatar))
+        holder.setText(R.id.tv_follow_name, item.name!!)
     }
 }

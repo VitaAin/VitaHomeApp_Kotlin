@@ -13,6 +13,7 @@ import com.vita.home.R
 import com.vita.home.api.Api
 import com.vita.home.bean.Article
 import com.vita.home.bean.Wrap
+import com.vita.home.constant.Key
 import kotlinx.android.synthetic.main.activity_article_show.*
 import kotlinx.android.synthetic.main.content_article_show.*
 import retrofit2.Call
@@ -27,23 +28,26 @@ class ArticleShowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_article_show)
-        val toolbar = findViewById(R.id.tb_article_show) as Toolbar
-        setSupportActionBar(toolbar)
 
-        val fab = findViewById(R.id.fab_in_article_show) as FloatingActionButton
-        fab.setOnClickListener(View.OnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        })
+        setupToolbar()
+        setupFab()
 
         initData()
     }
 
-    fun initData() {
-        var articleId = intent.getIntExtra("ArticleId", 0)
+    private fun setupToolbar() = setSupportActionBar(tb_article_show)
+
+    private fun setupFab()
+            = fab_in_article_show.setOnClickListener({ view ->
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+    })
+
+    private fun initData() {
+        val articleId = intent.getIntExtra(Key.KEY_ARTICLE_ID, 0)
         Log.d(TAG, "ArticleId: " + articleId)
 
-        Api.get().getArticle(articleId, object : Callback<Wrap<Article>> {
+        Api.get(this).getArticle(articleId, object : Callback<Wrap<Article>> {
             override fun onFailure(call: Call<Wrap<Article>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
             }

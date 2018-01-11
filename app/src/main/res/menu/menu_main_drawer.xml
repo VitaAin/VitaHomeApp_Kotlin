@@ -4,28 +4,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_personal_center"
-            android:icon="@drawable/ic_reorder_black_24dp"
-            android:title="My Articles"/>
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Personal Center"/>
         <item
             android:id="@+id/nav_edit_info"
-            android:icon="@drawable/ic_message_black_24dp"
-            android:title="My Comments"/>
-        <!--<item
-            android:id="@+id/nav_my_likes"
-            android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="My Likes"/>
-        <item
-            android:id="@+id/nav_my_fans"
-            android:icon="@drawable/ic_pets_black_24dp"
-            android:title="My Fans"/>
-        <item
-            android:id="@+id/nav_my_images"
-            android:icon="@drawable/ic_photo_library_black_24dp"
-            android:title="My Images"/>
-        <item
-            android:id="@+id/nav_my_notifications"
-            android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="My Notifications"/>-->
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="Edit Info"/>
     </group>
 
     <item android:title="Communicate">

@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <!-- To auto-complete the email text field in the login form with the mUser's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
@@ -41,9 +41,9 @@
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
+        <!--android:label="@string/title_activity_personal_center"-->
         <activity
             android:name=".activity.PersonalCenterActivity"
-            android:label="@string/title_activity_personal_center"
             android:theme="@style/VitaHomeAppTheme">
         </activity>
     </application>

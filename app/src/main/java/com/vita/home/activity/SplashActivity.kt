@@ -7,6 +7,7 @@ import android.os.Handler
 import android.text.TextUtils
 
 import com.vita.home.R
+import com.vita.home.constant.Key
 import com.vita.home.utils.SPUtils
 
 class SplashActivity : AppCompatActivity() {
@@ -21,8 +22,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkToken() {
-        val userCache: String = SPUtils.get(this, "User", "") as String
-        val token: String = SPUtils.get(this, "Token", "") as String
+        val userCache: String = SPUtils.get(this, Key.KEY_USER, "") as String
+        val token: String = SPUtils.get(this, Key.KEY_TOKEN, "") as String
         var clz: Class<*> = MainActivity::class.java
         if (TextUtils.isEmpty(userCache) || TextUtils.isEmpty(token)) {
             clz = LoginActivity::class.java
@@ -34,6 +35,11 @@ class SplashActivity : AppCompatActivity() {
         val delaySecond: Long = 2 * 1000
         mHandler.postDelayed({
             startActivity(Intent(this@SplashActivity, cls))
+            finish()
         }, delaySecond)
+    }
+
+    override fun onBackPressed() {
+        // Do nothing
     }
 }
