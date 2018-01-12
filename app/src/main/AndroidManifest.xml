@@ -41,10 +41,12 @@
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
-        <!--android:label="@string/title_activity_personal_center"-->
+        <!-- android:label="@string/title_activity_personal_center" -->
         <activity
             android:name=".activity.PersonalCenterActivity"
             android:theme="@style/VitaHomeAppTheme">
+        </activity>
+        <activity android:name=".activity.EditInfoActivity">
         </activity>
     </application>
 

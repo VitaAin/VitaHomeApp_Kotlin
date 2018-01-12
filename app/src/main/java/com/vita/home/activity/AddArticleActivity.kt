@@ -69,7 +69,9 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_add_article -> Log.d(TAG, "Article done! ")
+            R.id.btn_add_article -> {
+                Log.d(TAG, "Article done! ")
+            }
             else -> {
                 // Do nothing
             }

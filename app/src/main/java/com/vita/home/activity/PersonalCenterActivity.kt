@@ -1,13 +1,17 @@
 package com.vita.home.activity
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.util.Log
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
 import com.google.gson.Gson
 
 import com.vita.home.R
@@ -48,6 +52,7 @@ class PersonalCenterActivity : AppCompatActivity(),
 
         initData()
 
+        setupCollapsingToolbarLayout()
         setupToolbar()
         setupTabAndViewPager()
     }
@@ -58,7 +63,18 @@ class PersonalCenterActivity : AppCompatActivity(),
         getUser()
     }
 
-    private fun setupToolbar() = setSupportActionBar(tb_personal_center)
+    private fun setupCollapsingToolbarLayout() {
+        ctl_personal_center.setExpandedTitleColor(0x00000000)
+        ctl_personal_center.setCollapsedTitleTextColor(0xffffff)
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(tb_personal_center)
+
+        val ab = supportActionBar
+        ab!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+        ab.setDisplayHomeAsUpEnabled(true)
+    }
 
     private fun initFrags(): List<Fragment> {
         var frags = ArrayList<Fragment>()
@@ -85,7 +101,6 @@ class PersonalCenterActivity : AppCompatActivity(),
 
             override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {
                 Log.i(TAG, "onResponse: " + response.body()?.message)
-                Log.i(TAG, Gson().toJson(response.body()))
                 if (response.body()?.status == 1) {
                     mUser = response.body()?.data
                     fillUser()

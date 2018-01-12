@@ -63,4 +63,11 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/et_article_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Article Body"
+        android:inputType="textMultiLine"/>
+
 </LinearLayout>

@@ -26,6 +26,9 @@ object AccountHelper {
         return Gson().fromJson(userJson, User::class.java)
     }
 
+    fun getUserJson(ctx: Context): String
+            = SPUtils.get(ctx, Key.KEY_USER, "") as String
+
     fun getToken(ctx: Context): String
             = SPUtils.get(ctx, Key.KEY_TOKEN, "") as String
 }

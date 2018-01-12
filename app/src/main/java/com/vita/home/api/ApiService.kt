@@ -36,7 +36,7 @@ interface ApiService {
     fun getArticle(@Path("id") id: Int): Call<Wrap<Article>>
 
     @POST("articles")
-    fun addArticle(@Body() article: Article): Call<Wrap<Any>>
+    fun createArticle(@Body() article: Article): Call<Wrap<Any>>
 
     @PUT("articles/{id}")
     fun updateArticle(article: Article): Call<Wrap<Any>>
@@ -60,7 +60,10 @@ interface ApiService {
     fun getUserLikeArticles(@Path("id") id: Int): Call<Wrap<List<Article>>>
 
     @GET("users/{id}/follow_users")
-    fun getUserFollowUsers(@Path("id")id: Int):Call<Wrap<List<User>>>
+    fun getUserFollowUsers(@Path("id") id: Int): Call<Wrap<List<User>>>
+
+    @POST("edit_user_info")
+    fun editUserInfo(@Body() user: User): Call<Wrap<User>>
 
     class Factory {
         fun createApiService(ctx: Context): ApiService {
@@ -74,7 +77,7 @@ interface ApiService {
                             val requestNew = request.newBuilder()
                                     .header("Accept", "application/json")
                                     .header("Authorization", "Bearer " + AccountHelper.getToken(ctx))
-                                    .method(request.method(), request.body())
+//                                    .method(request.method(), request.body())
                                     .build()
                             chain.proceed(requestNew)
                         } else {

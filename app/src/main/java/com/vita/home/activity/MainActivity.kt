@@ -155,6 +155,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
             }
             R.id.nav_edit_info -> {
+                jumpTo(EditInfoActivity::class.java)
             }
             else -> {
                 // Do nothing

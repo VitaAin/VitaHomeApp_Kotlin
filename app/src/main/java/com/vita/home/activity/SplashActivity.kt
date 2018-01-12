@@ -8,6 +8,7 @@ import android.text.TextUtils
 
 import com.vita.home.R
 import com.vita.home.constant.Key
+import com.vita.home.helper.AccountHelper
 import com.vita.home.utils.SPUtils
 
 class SplashActivity : AppCompatActivity() {
@@ -22,8 +23,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkToken() {
-        val userCache: String = SPUtils.get(this, Key.KEY_USER, "") as String
-        val token: String = SPUtils.get(this, Key.KEY_TOKEN, "") as String
+        val userCache: String = AccountHelper.getUserJson(this)
+        val token: String = AccountHelper.getToken(this)
         var clz: Class<*> = MainActivity::class.java
         if (TextUtils.isEmpty(userCache) || TextUtils.isEmpty(token)) {
             clz = LoginActivity::class.java
