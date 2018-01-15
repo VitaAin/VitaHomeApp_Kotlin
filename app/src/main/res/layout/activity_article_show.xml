@@ -16,7 +16,7 @@
         android:theme="@style/VitaHomeAppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/ctl_article_title"
+            android:id="@+id/ctl_article_show"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"

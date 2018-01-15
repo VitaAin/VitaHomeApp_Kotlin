@@ -1,5 +1,8 @@
 package com.vita.home.activity
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -54,6 +57,8 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         et_qq.setText(mUser!!.qq)
         et_city.setText(mUser!!.city)
         et_introduction.setText(mUser!!.introduction)
+
+        iv_user_avatar.setOnClickListener(this@EditInfoActivity)
         rg_sex.setOnCheckedChangeListener(this@EditInfoActivity)
         btn_save_info.setOnClickListener(this@EditInfoActivity)
     }
@@ -71,6 +76,8 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         mUser!!.sex = rb.text.toString()
     }
 
+    private val REQUEST_CODE_CHOOSE_USER_AVATAR = 1
+
     override fun onClick(v: View?) = when (v!!.id) {
         R.id.btn_save_info -> {
             updateUser()
@@ -85,8 +92,29 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
                 }
             })
         }
+        R.id.iv_user_avatar -> {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent, "Choose User Avatar"),
+                    REQUEST_CODE_CHOOSE_USER_AVATAR)
+        }
         else -> {
             // Do nothing
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_CODE_CHOOSE_USER_AVATAR -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val uri: Uri = data?.data!!
+                    Log.d(TAG, "onActivityResult: uri: " + uri.path)
+                    Glide.with(this).load(uri)
+                            .into(iv_user_avatar)
+                }
+            }
         }
     }
 }

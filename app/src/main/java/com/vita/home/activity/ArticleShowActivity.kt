@@ -1,19 +1,21 @@
 package com.vita.home.activity
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.View
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 
 import com.vita.home.R
 import com.vita.home.api.Api
 import com.vita.home.bean.Article
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
+import com.vita.home.helper.GlideRequestOpts
 import kotlinx.android.synthetic.main.activity_article_show.*
 import kotlinx.android.synthetic.main.content_article_show.*
 import retrofit2.Call
@@ -63,11 +65,22 @@ class ArticleShowActivity : AppCompatActivity() {
     }
 
     fun fillArticle() {
-        ctl_article_title.title = article?.title
+        ctl_article_show.title = article?.title
+        if (article?.coverUrl != null) {
+            Glide.with(this)
+                    .load(article?.coverUrl)
+                    .apply(GlideRequestOpts.centerCropOpts)
+                    .into(object : SimpleTarget<Drawable>() {
+                        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>) {
+                            Log.i(TAG, "onResourceReady: in SimpleTarget")
+                            ctl_article_show.setBackgroundDrawable(resource)
+                        }
+                    })
+        }
         tv_article_body.text = article?.body
         Glide.with(this)
                 .load(article?.user?.avatar)
-                .centerCrop()
+                .apply(GlideRequestOpts.centerCropOpts)
                 .into(iv_user_avatar)
         tv_user_name.text = article?.user?.name
         tv_created_at.text = article?.createdAt

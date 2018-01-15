@@ -3,7 +3,6 @@ package com.vita.home.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -12,7 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -27,6 +25,7 @@ import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
 import com.vita.home.helper.AccountHelper
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import retrofit2.Call
@@ -43,8 +42,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
         setupViews()
         initData()
     }
@@ -58,27 +55,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun setupToolbar() {
-        val toolbar = findViewById(R.id.tb_main) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(tb_main)
 
         val drawer = findViewById(R.id.drawer_main) as DrawerLayout
         val toggle = ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+                this, drawer, tb_main, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.setDrawerListener(toggle)
         toggle.syncState()
     }
 
-    private fun setupFab() {
-        val fab = findViewById(R.id.fab_in_main) as FloatingActionButton
-        fab.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AddArticleActivity::class.java))
-        }
+    private fun setupFab()
+            = fab_in_main.setOnClickListener {
+        startActivity(Intent(this@MainActivity, AddArticleActivity::class.java))
     }
 
-    private fun setupNavView() {
-        val navigationView = findViewById(R.id.nav_view_main) as NavigationView
-        navigationView.setNavigationItemSelectedListener(this@MainActivity)
-    }
+    private fun setupNavView()
+            = nav_view_main.setNavigationItemSelectedListener(this@MainActivity)
 
     private fun setupArticlesRv() {
         rv_all_articles.layoutManager = LinearLayoutManager(this)
@@ -118,14 +110,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
     }
 
-    override fun onBackPressed() {
-        val drawer = findViewById(R.id.drawer_main) as DrawerLayout
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
+    override fun onBackPressed() =
+            if (drawer_main.isDrawerOpen(GravityCompat.START)) {
+                drawer_main.closeDrawer(GravityCompat.START)
+            } else {
+                super.onBackPressed()
+            }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -139,8 +129,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
 
-
-        return if (id == R.id.action_settings) {
+        return if (id == R.id.menu_action_settings) {
             true
         } else super.onOptionsItemSelected(item)
 
@@ -149,12 +138,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_personal_center -> {
+            R.id.menu_nav_personal_center -> {
                 var intent = Intent(this@MainActivity, PersonalCenterActivity::class.java)
                 intent.putExtra(Key.KEY_USER_ID, AccountHelper.getUserId(this))
                 startActivity(intent)
             }
-            R.id.nav_edit_info -> {
+            R.id.menu_nav_edit_info -> {
                 jumpTo(EditInfoActivity::class.java)
             }
             else -> {
@@ -167,14 +156,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    private fun jumpTo(cls: Class<*>) {
-        startActivity(Intent(this@MainActivity, cls))
-    }
+    private fun jumpTo(cls: Class<*>)
+            = startActivity(Intent(this@MainActivity, cls))
 }
 
-class ArticlesRvAdapter(ctx: Context, dataList: List<Article>?, layoutId: Int)
+class ArticlesRvAdapter(private val ctx: Context,
+                        dataList: List<Article>?, layoutId: Int)
     : RvCommonAdapter<Article>(ctx, dataList, layoutId) {
     override fun convert(holder: ViewHolder, item: Article, position: Int) {
         holder.setText(R.id.tv_article_title, item.title!!)
+        holder.setText(R.id.tv_article_abstract, item.body!!)
+        if (item.coverUrl != null) {
+            holder.setVisibility(R.id.iv_article_cover, true)
+            Glide.with(ctx).load(item.coverUrl)
+                    .into(holder.getView(R.id.iv_article_cover))
+        }
     }
 }

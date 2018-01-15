@@ -113,4 +113,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_create_category">创建分类</string>
+    <string name="action_create_tag">创建标签</string>
+    <string name="action_done">完成</string>
+    <string name="title_activity_add_article">写文章</string>
 </resources>

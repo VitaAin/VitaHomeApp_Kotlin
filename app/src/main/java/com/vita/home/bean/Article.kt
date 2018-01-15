@@ -12,6 +12,8 @@ class Article {
 
     var id: Int = 0
     var title: String? = null
+    @SerializedName("cover_url")
+    var coverUrl: String? = null
     var body: String? = null
     @SerializedName("user_id")
     var userId: Int = 0

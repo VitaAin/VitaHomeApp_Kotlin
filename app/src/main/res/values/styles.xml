@@ -18,4 +18,19 @@
     <style name="VitaHomeAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="VitaHomeAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="VitaHomeAppTheme.Toolbar" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="actionMenuTextColor">@color/colorWhite</item>
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+    </style>
+
+    <style name="DialogButton">
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:background">@drawable/selector_dialog_btns_pressed</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/selector_text_white_pressed</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

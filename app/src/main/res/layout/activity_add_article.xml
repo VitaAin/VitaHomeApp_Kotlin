@@ -14,60 +14,62 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="2dp"
-        android:theme="?attr/actionBarTheme"
-        app:titleTextColor="#fff">
-
-        <Button
-            android:id="@+id/btn_add_article"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@color/colorMyPrimary"
-            android:text="Done"
-            android:textAllCaps="false"
-            android:textColor="@color/colorMyAccent"/>
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/et_article_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Article Title"
-            android:inputType="text"
-            android:maxLines="1"/>
-
-    </android.support.design.widget.TextInputLayout>
+        app:popupTheme="@style/VitaHomeAppTheme.PopupOverlay"
+        app:theme="@style/VitaHomeAppTheme.Toolbar"
+        app:titleTextColor="#fff"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerPadding="16dp"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <Spinner
-            android:id="@+id/sp_categories"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Spinner
-            android:id="@+id/sp_tags"
-            android:layout_width="0dp"
+            <EditText
+                android:id="@+id/et_article_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Article Title"
+                android:inputType="text"
+                android:maxLines="1"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:dividerPadding="16dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <Spinner
+                android:id="@+id/sp_categories"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Spinner
+                android:id="@+id/sp_tags"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_article_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_et_article_body"
+            android:gravity="top"
+            android:hint="Article Body"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"/>
+
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/et_article_body"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="Article Body"
-        android:inputType="textMultiLine"/>
 
 </LinearLayout>

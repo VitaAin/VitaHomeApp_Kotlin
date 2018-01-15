@@ -36,17 +36,23 @@ class Api private constructor(ctx: Context) {
     fun getArticle(id: Int, listener: Callback<Wrap<Article>>)
             = mApiService.getArticle(id).enqueue(listener)
 
-    fun createArticle(article: Article, listener: Callback<Wrap<Any>>)
+    fun createArticle(article: Article, listener: Callback<Wrap<Article>>)
             = mApiService.createArticle(article).enqueue(listener)
 
     fun updateArticle(article: Article, listener: Callback<Wrap<Any>>)
-            = mApiService.createArticle(article).enqueue(listener)
+            = mApiService.updateArticle(article).enqueue(listener)
 
     fun getCategories(listener: Callback<Wrap<List<Category>>>)
             = mApiService.getCategories().enqueue(listener)
 
+    fun createCategory(category: Category, listener: Callback<Wrap<Category>>)
+            = mApiService.createCategory(category).enqueue(listener)
+
     fun getTags(listener: Callback<Wrap<List<Tag>>>)
             = mApiService.getTags().enqueue(listener)
+
+    fun createTag(tag: Tag, listener: Callback<Wrap<Tag>>)
+            = mApiService.createTag(tag).enqueue(listener)
 
     fun getUser(id: Int, listener: Callback<Wrap<User>>)
             = mApiService.getUser(id).enqueue(listener)

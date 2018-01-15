@@ -93,21 +93,20 @@ class PersonalCenterActivity : AppCompatActivity(),
         tl_personal_center.setupWithViewPager(vp_personal_center)
     }
 
-    private fun getUser() {
-        Api.get(this).getUser(mUserId!!, object : Callback<Wrap<User>> {
-            override fun onFailure(call: Call<Wrap<User>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
-            }
+    private fun getUser()
+            = Api.get(this).getUser(mUserId!!, object : Callback<Wrap<User>> {
+        override fun onFailure(call: Call<Wrap<User>>, t: Throwable) {
+            Log.e(TAG, "onFailure: " + t.toString())
+        }
 
-            override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {
-                Log.i(TAG, "onResponse: " + response.body()?.message)
-                if (response.body()?.status == 1) {
-                    mUser = response.body()?.data
-                    fillUser()
-                }
+        override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {
+            Log.i(TAG, "onResponse: " + response.body()?.message)
+            if (response.body()?.status == 1) {
+                mUser = response.body()?.data
+                fillUser()
             }
-        })
-    }
+        }
+    })
 
     private fun fillUser() {
         if (mUser == null) {

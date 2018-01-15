@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context="com.vita.home.activity.EditInfoActivity">
 
     <android.support.v7.widget.Toolbar
@@ -30,96 +29,108 @@
             android:textColor="@color/colorMyAccent"/>
     </android.support.v7.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/iv_user_avatar"
-        android:layout_width="70dp"
-        android:layout_height="70dp"/>
-
-    <EditText
-        android:id="@+id/et_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="用户名"
-        android:inputType="text"
-        android:maxLines="1"/>
-
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="邮箱"
-        android:inputType="textEmailAddress"
-        android:maxLines="1"/>
-
-    <EditText
-        android:id="@+id/et_real_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="真实姓名"
-        android:inputType="text"
-        android:maxLines="1"/>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="性别："/>
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"/>
 
-        <RadioGroup
-            android:id="@+id/rg_sex"
+        <EditText
+            android:id="@+id/et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="用户名"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="邮箱"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/et_real_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:hint="真实姓名"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/rb_sex_male"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="男"/>
+                android:text="性别："/>
 
-            <RadioButton
-                android:id="@+id/rb_sex_female"
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/rg_sex"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="女"/>
-        </RadioGroup>
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_sex_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="男"/>
+
+                <RadioButton
+                    android:id="@+id/rb_sex_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="女"/>
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_qq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:hint="QQ"
+            android:inputType="numberDecimal"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/et_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:hint="所在城市"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/et_introduction"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/shape_et_article_body"
+            android:enabled="true"
+            android:gravity="top"
+            android:hint="介绍自己"
+            android:inputType="textMultiLine"
+            android:maxLines="7"
+            android:scrollbars="vertical"/>
 
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/et_qq"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="QQ"
-        android:inputType="numberDecimal"
-        android:maxLines="1"/>
-
-    <EditText
-        android:id="@+id/et_city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="所在城市"
-        android:inputType="text"
-        android:maxLines="1"/>
-
-    <EditText
-        android:id="@+id/et_introduction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="介绍自己"
-        android:inputType="textMultiLine"
-        android:maxLines="7"/>
 
 </LinearLayout>

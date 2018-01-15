@@ -36,7 +36,7 @@ interface ApiService {
     fun getArticle(@Path("id") id: Int): Call<Wrap<Article>>
 
     @POST("articles")
-    fun createArticle(@Body() article: Article): Call<Wrap<Any>>
+    fun createArticle(@Body() article: Article): Call<Wrap<Article>>
 
     @PUT("articles/{id}")
     fun updateArticle(article: Article): Call<Wrap<Any>>
@@ -44,8 +44,14 @@ interface ApiService {
     @GET("categories")
     fun getCategories(): Call<Wrap<List<Category>>>
 
+    @POST("categories")
+    fun createCategory(@Body() category: Category): Call<Wrap<Category>>
+
     @GET("tags")
     fun getTags(): Call<Wrap<List<Tag>>>
+
+    @POST("tags")
+    fun createTag(@Body() tag: Tag): Call<Wrap<Tag>>
 
     @GET("users/{id}")
     fun getUser(@Path("id") id: Int): Call<Wrap<User>>

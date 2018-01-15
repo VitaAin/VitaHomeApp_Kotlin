@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName
  * @Date: 2018-01-09 14:36
  * @Usage:
  */
-class Category {
+class Category(name: String, description: String) {
     var id: Int = 0
-    var name: String? = null
-    var description: String? = null
+    var name: String? = name
+    var description: String? = description
     @SerializedName("articles_count")
     var articlesCount: Int = 0
     @SerializedName("created_at")
