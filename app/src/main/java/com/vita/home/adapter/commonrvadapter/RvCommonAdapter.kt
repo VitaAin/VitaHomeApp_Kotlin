@@ -20,6 +20,8 @@ open class RvCommonAdapter<T>(private val mContext: Context,
                               private val mLayoutId: Int)
     : RecyclerView.Adapter<ViewHolder>() {
 
+    private var mHeaderAndFooterAdapter: BGAHeaderAndFooterAdapter? = null
+
     var isShowSelect: Boolean = false
         set(showCheck) {
             field = showCheck
@@ -100,6 +102,41 @@ open class RvCommonAdapter<T>(private val mContext: Context,
 
     fun getItem(position: Int): T
             = mDataList!![position]
+
+
+    fun addHeaderView(headerView: View)
+            = getHeaderAndFooterAdapter().addHeaderView(headerView)
+
+    fun addFooterView(footerView: View)
+            = getHeaderAndFooterAdapter().addFooterView(footerView)
+
+    fun removeHeaderView(view: View)
+            = getHeaderAndFooterAdapter().removeHeaderView(view)
+
+    fun removeFooterView(view: View)
+            = getHeaderAndFooterAdapter().removeFooterView(view)
+
+    fun getHeadersCount(): Int =
+            if (mHeaderAndFooterAdapter == null) 0
+            else mHeaderAndFooterAdapter!!.headersCount
+
+    fun getFootersCount(): Int =
+            if (mHeaderAndFooterAdapter == null) 0
+            else mHeaderAndFooterAdapter!!.footersCount
+
+    fun getHeaderAndFooterAdapter(): BGAHeaderAndFooterAdapter {
+        if (mHeaderAndFooterAdapter == null) {
+            synchronized(this@RvCommonAdapter) {
+                if (mHeaderAndFooterAdapter == null) {
+                    mHeaderAndFooterAdapter = BGAHeaderAndFooterAdapter(this)
+                }
+            }
+        }
+        return mHeaderAndFooterAdapter!!
+    }
+
+    fun isHeaderOrFooter(viewHolder: RecyclerView.ViewHolder): Boolean =
+            viewHolder.adapterPosition < getHeadersCount() || viewHolder.adapterPosition >= getHeadersCount() + itemCount
 
     interface OnItemClickListener {
         fun onItemClick(view: View, position: Int)

@@ -31,4 +31,16 @@ object AccountHelper {
 
     fun getToken(ctx: Context): String
             = SPUtils.get(ctx, Key.KEY_TOKEN, "") as String
+
+    fun updateUser(ctx: Context, new: User) {
+        var user = getUser(ctx)
+        user.realName = new.realName
+        user.sex = new.sex
+        user.phone = new.phone
+        user.qq = new.qq
+        user.city = new.city
+        user.introduction = new.introduction
+        SPUtils.remove(ctx, Key.KEY_USER)
+        SPUtils.put(ctx, Key.KEY_USER, Gson().toJson(user))
+    }
 }

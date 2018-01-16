@@ -121,6 +121,7 @@ class LoginActivity : AppCompatActivity() {
         SPUtils.put(this, Key.KEY_USER, Gson().toJson(user))
         SPUtils.put(this, Key.KEY_TOKEN, user.jwtToken!!.accessToken)
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 
     private fun isEmailValid(email: String)

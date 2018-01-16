@@ -28,6 +28,7 @@ import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
 import com.vita.home.helper.AccountHelper
 import com.vita.home.utils.NetworkUtils
+import com.vita.home.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -106,7 +107,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val user = AccountHelper.getUser(this)
         Glide.with(this).load(user.avatar).into(nav_view_main.getHeaderView(0).iv_avatar)
         nav_view_main.getHeaderView(0).tv_username.text = user.name
-        nav_view_main.getHeaderView(0).tv_email.text = user.email
     }
 
     private fun initData() = getArticles(1, null)
@@ -115,11 +115,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Api.get(this).getArticles(page, tagName, object : Callback<Wrap<Articles>> {
             override fun onFailure(call: Call<Wrap<Articles>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
+                endRefresh()
+                endLoadMore()
             }
 
             override fun onResponse(call: Call<Wrap<Articles>>, response: Response<Wrap<Articles>>) {
                 Log.i(TAG, "onResponse: " + response.body()?.message)
                 endRefresh()
+                endLoadMore()
                 if (response.body()?.status == 1) {
                     mArticles = response.body()?.data
                     mArticlesRvAdapter?.replaceData(mArticles?.data)
@@ -136,15 +139,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
 
         return if (id == R.id.menu_action_settings) {
@@ -154,7 +153,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.menu_nav_personal_center -> {
                 var intent = Intent(this@MainActivity, PersonalCenterActivity::class.java)
@@ -180,12 +178,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onBGARefreshLayoutBeginLoadingMore(refreshLayout: BGARefreshLayout?): Boolean {
 
         if (!NetworkUtils.isNetworkConnected(this)) {
-            showToast("当前网络不可用")
+            ToastUtils.showShort(this, "当前网络不可用")
             endLoadMore()
             return false
         }
         if (mArticles?.nextPageUrl == null) {
-            showToast("没有更多数据了")
+            ToastUtils.showShort(this, "没有更多数据了")
             endLoadMore()
             return false
         }
@@ -196,7 +194,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBGARefreshLayoutBeginRefreshing(refreshLayout: BGARefreshLayout?) {
         if (!NetworkUtils.isNetworkConnected(this)) {
-            showToast("当前网络不可用")
+            ToastUtils.showShort(this, "当前网络不可用")
             endRefresh()
             return
         }
@@ -211,10 +209,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun endRefresh() = rl_articles.endRefreshing()
 
     private fun endLoadMore() = rl_articles.endLoadingMore()
-
-    private fun showToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
 }
 
 class ArticlesRvAdapter(private val ctx: Context,

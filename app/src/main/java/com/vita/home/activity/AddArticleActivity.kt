@@ -41,7 +41,10 @@ class AddArticleActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(tb_add_article)
-        tb_add_article.title = "Add Article"
+
+        val ab = supportActionBar
+        ab!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+        ab.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initData() {
@@ -88,6 +91,7 @@ class AddArticleActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> finish()
             R.id.menu_action_done -> createArticle()
             R.id.menu_action_create_category -> showCreateCategoryDialog()
             R.id.menu_action_create_tag -> showCreateTagDialog()

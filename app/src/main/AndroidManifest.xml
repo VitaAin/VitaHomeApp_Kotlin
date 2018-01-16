@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <!-- To auto-complete the email text field in the login form with the mUser's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
@@ -40,7 +43,8 @@
         <activity
             android:name=".activity.AddArticleActivity"
             android:label="@string/title_activity_add_article"
-            android:theme="@style/VitaHomeAppTheme">
+            android:theme="@style/VitaHomeAppTheme"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -51,7 +55,16 @@
             android:name=".activity.PersonalCenterActivity"
             android:theme="@style/VitaHomeAppTheme">
         </activity>
-        <activity android:name=".activity.EditInfoActivity">
+        <activity
+            android:name=".activity.EditInfoActivity"
+            android:label="@string/title_activity_edit_info"
+            android:theme="@style/VitaHomeAppTheme"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.NotificationsActivity"
+            android:label="@string/title_activity_notifications"
+            android:theme="@style/VitaHomeAppTheme">
         </activity>
     </application>
 

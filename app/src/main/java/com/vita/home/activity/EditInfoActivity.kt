@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -18,6 +20,7 @@ import com.vita.home.api.Api
 import com.vita.home.bean.User
 import com.vita.home.bean.Wrap
 import com.vita.home.helper.AccountHelper
+import com.vita.home.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_edit_info.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,8 +36,17 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_info)
 
+        setupToolbar()
         initData()
         initView()
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(tb_edit_info)
+
+        val ab = supportActionBar
+        ab!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+        ab.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initData() {
@@ -54,20 +66,47 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         if (checkedRbId != -1) {
             rg_sex.check(checkedRbId)
         }
+        et_phone.setText(mUser!!.phone)
         et_qq.setText(mUser!!.qq)
         et_city.setText(mUser!!.city)
         et_introduction.setText(mUser!!.introduction)
 
         iv_user_avatar.setOnClickListener(this@EditInfoActivity)
         rg_sex.setOnCheckedChangeListener(this@EditInfoActivity)
-        btn_save_info.setOnClickListener(this@EditInfoActivity)
     }
 
     private fun updateUser() {
         mUser!!.realName = et_real_name.text.toString()
+        mUser!!.phone = et_phone.text.toString()
         mUser!!.qq = et_qq.text.toString()
         mUser!!.city = et_city.text.toString()
         mUser!!.introduction = et_introduction.text.toString()
+    }
+
+    private fun saveUserInfo() {
+        updateUser()
+        Api.get(this@EditInfoActivity).editUserInfo(mUser!!, object : Callback<Wrap<User>> {
+            override fun onFailure(call: Call<Wrap<User>>, t: Throwable) {
+                Log.e(TAG, "onFailure: " + t.toString())
+            }
+
+            override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {
+                Log.i(TAG, "onResponse: " + response.body()?.message)
+                Log.i(TAG, Gson().toJson(response.body()))
+                if (response.body()?.status == 1) {
+                    AccountHelper.updateUser(this@EditInfoActivity, response.body()?.data!!)
+                    ToastUtils.showShort(this@EditInfoActivity, "修改成功")
+                }
+            }
+        })
+    }
+
+    private fun jumpToImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Choose User Avatar"),
+                REQUEST_CODE_CHOOSE_USER_AVATAR)
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
@@ -79,29 +118,28 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
     private val REQUEST_CODE_CHOOSE_USER_AVATAR = 1
 
     override fun onClick(v: View?) = when (v!!.id) {
-        R.id.btn_save_info -> {
-            updateUser()
-            Api.get(this@EditInfoActivity).editUserInfo(mUser!!, object : Callback<Wrap<User>> {
-                override fun onFailure(call: Call<Wrap<User>>, t: Throwable) {
-                    Log.e(TAG, "onFailure: " + t.toString())
-                }
-
-                override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {
-                    Log.i(TAG, "onResponse: " + response.body()?.message)
-                    Log.i(TAG, Gson().toJson(response.body()))
-                }
-            })
-        }
         R.id.iv_user_avatar -> {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Choose User Avatar"),
-                    REQUEST_CODE_CHOOSE_USER_AVATAR)
+            jumpToImage()
         }
         else -> {
             // Do nothing
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_edit_info, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+            R.id.menu_action_done -> saveUserInfo()
+            else -> {
+                // Do nothing
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -111,8 +149,7 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
                 if (resultCode == Activity.RESULT_OK) {
                     val uri: Uri = data?.data!!
                     Log.d(TAG, "onActivityResult: uri: " + uri.path)
-                    Glide.with(this).load(uri)
-                            .into(iv_user_avatar)
+                    Glide.with(this).load(uri).into(iv_user_avatar)
                 }
             }
         }

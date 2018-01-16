@@ -68,8 +68,44 @@ interface ApiService {
     @GET("users/{id}/follow_users")
     fun getUserFollowUsers(@Path("id") id: Int): Call<Wrap<List<User>>>
 
+    @GET("users/{id}/images")
+    fun getUserImages(@Path("id") id: Int): Call<Wrap<List<Image>>>
+
     @POST("edit_user_info")
     fun editUserInfo(@Body() user: User): Call<Wrap<User>>
+
+    @GET("articles/{id}/likes")
+    fun getArticleLikes(@Path("id") id: Int): Call<Wrap<Any>>
+
+    @GET("articles/{id}/comments")
+    fun getArticleComments(@Path("id") id: Int): Call<Wrap<Any>>
+
+    @POST("comments")
+    fun createComment(@Body() comment: Comment): Call<Wrap<Any>>
+
+    @GET("article/is_like")
+    fun isLikeOrNot(@Body() id: Int): Call<Wrap<Any>>
+
+    @GET("article/like")
+    fun like(@Body() id: Int): Call<Wrap<Any>>
+
+    @GET("user/is_follow")
+    fun isFollowOrNot(@Body() id: Int): Call<Wrap<Any>>
+
+    @GET("user/follow")
+    fun follow(@Body() id: Int): Call<Wrap<Any>>
+
+    @GET("notifications")
+    fun getNotifications(): Call<Wrap<Any>>
+
+    @GET("notice_reply")
+    fun getNoticeReply(): Call<Wrap<Any>>
+
+    @GET("notice_follow")
+    fun getNoticeFollow(): Call<Wrap<Any>>
+
+    @GET("notice_like")
+    fun getNoticeLike(): Call<Wrap<Any>>
 
     class Factory {
         fun createApiService(ctx: Context): ApiService {

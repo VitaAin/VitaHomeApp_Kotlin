@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.google.gson.Gson
@@ -116,6 +117,13 @@ class PersonalCenterActivity : AppCompatActivity(),
         Glide.with(this).load(mUser!!.avatar).into(iv_user_avatar)
         tv_username.text = mUser!!.name
         tv_email.text = mUser!!.email
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 

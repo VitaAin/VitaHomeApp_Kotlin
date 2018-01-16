@@ -18,6 +18,7 @@ class User {
     @SerializedName("real_name")
     var realName: String? = null
     var sex: String? = null
+    var phone: String? = null
     var qq: String? = null
     var city: String? = null
     var introduction: String? = null
