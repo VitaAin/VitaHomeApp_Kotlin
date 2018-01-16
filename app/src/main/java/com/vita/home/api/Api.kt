@@ -30,8 +30,8 @@ class Api private constructor(ctx: Context) {
     fun login(account: LoginRequest, listener: Callback<Wrap<User>>)
             = mApiService.login(account).enqueue(listener)
 
-    fun getArticles(tagName: String?, listener: Callback<Wrap<Articles>>)
-            = mApiService.getArticles(tagName).enqueue(listener)
+    fun getArticles(page: Int = 1, tagName: String?, listener: Callback<Wrap<Articles>>)
+            = mApiService.getArticles(page, tagName).enqueue(listener)
 
     fun getArticle(id: Int, listener: Callback<Wrap<Article>>)
             = mApiService.getArticle(id).enqueue(listener)

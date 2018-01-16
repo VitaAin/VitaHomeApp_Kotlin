@@ -30,7 +30,7 @@ interface ApiService {
     fun login(@Body() account: LoginRequest): Call<Wrap<User>>
 
     @GET("articles")
-    fun getArticles(@Query("tag") tagName: String?): Call<Wrap<Articles>>
+    fun getArticles(@Query("page") page: Int, @Query("tag") tagName: String?): Call<Wrap<Articles>>
 
     @GET("articles/{id}")
     fun getArticle(@Path("id") id: Int): Call<Wrap<Article>>

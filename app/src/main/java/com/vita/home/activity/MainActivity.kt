@@ -14,6 +14,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout
 import com.bumptech.glide.Glide
 import com.vita.home.R
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
@@ -24,6 +27,7 @@ import com.vita.home.bean.Articles
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
 import com.vita.home.helper.AccountHelper
+import com.vita.home.utils.NetworkUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -32,9 +36,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private val TAG = "ArticlesActivity"
+    private var mArticles: Articles? = null
     private var mArticleList: List<Article>? = ArrayList()
     private var mArticlesRvAdapter: ArticlesRvAdapter? = null
 
@@ -51,6 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupFab()
         setupNavView()
         setupArticlesRv()
+        setupArticlesRefreshLayout()
         fillUserInDrawer()
     }
 
@@ -76,15 +82,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         rv_all_articles.layoutManager = LinearLayoutManager(this)
         rv_all_articles.hasFixedSize()
         rv_all_articles.itemAnimator = DefaultItemAnimator()
-        mArticlesRvAdapter = ArticlesRvAdapter(this, mArticleList, R.layout.item_article)
+        mArticlesRvAdapter = ArticlesRvAdapter(this, mArticles?.data, R.layout.item_article)
         rv_all_articles.adapter = mArticlesRvAdapter
         mArticlesRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@MainActivity, ArticleShowActivity::class.java)
-                intent.putExtra(Key.KEY_ARTICLE_ID, mArticleList?.get(position)?.id)
+                intent.putExtra(Key.KEY_ARTICLE_ID, mArticles?.data?.get(position)?.id)
                 startActivity(intent)
             }
         })
+    }
+
+    private fun setupArticlesRefreshLayout() {
+        rl_articles.setDelegate(this@MainActivity)
+        var refreshViewHolder = BGANormalRefreshViewHolder(this, true)
+        rl_articles.setRefreshViewHolder(refreshViewHolder)
+        rl_articles.setIsShowLoadingMoreView(true)
+        refreshViewHolder.setRefreshViewBackgroundColorRes(R.color.colorMyAccent)
+        refreshViewHolder.setLoadingMoreText("加载中...")
     }
 
     private fun fillUserInDrawer() {
@@ -94,17 +109,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view_main.getHeaderView(0).tv_email.text = user.email
     }
 
-    private fun initData() {
-        Api.get(this).getArticles(null, object : Callback<Wrap<Articles>> {
+    private fun initData() = getArticles(1, null)
+
+    private fun getArticles(page: Int, tagName: String?) {
+        Api.get(this).getArticles(page, tagName, object : Callback<Wrap<Articles>> {
             override fun onFailure(call: Call<Wrap<Articles>>, t: Throwable) {
                 Log.e(TAG, "onFailure: " + t.toString())
             }
 
             override fun onResponse(call: Call<Wrap<Articles>>, response: Response<Wrap<Articles>>) {
                 Log.i(TAG, "onResponse: " + response.body()?.message)
+                endRefresh()
                 if (response.body()?.status == 1) {
-                    mArticleList = response.body()?.data?.data
-                    mArticlesRvAdapter?.replaceData(mArticleList)
+                    mArticles = response.body()?.data
+                    mArticlesRvAdapter?.replaceData(mArticles?.data)
                 }
             }
         })
@@ -158,6 +176,45 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun jumpTo(cls: Class<*>)
             = startActivity(Intent(this@MainActivity, cls))
+
+    override fun onBGARefreshLayoutBeginLoadingMore(refreshLayout: BGARefreshLayout?): Boolean {
+
+        if (!NetworkUtils.isNetworkConnected(this)) {
+            showToast("当前网络不可用")
+            endLoadMore()
+            return false
+        }
+        if (mArticles?.nextPageUrl == null) {
+            showToast("没有更多数据了")
+            endLoadMore()
+            return false
+        }
+
+        getArticles(mArticles?.currentPage!! + 1, null)
+        return true
+    }
+
+    override fun onBGARefreshLayoutBeginRefreshing(refreshLayout: BGARefreshLayout?) {
+        if (!NetworkUtils.isNetworkConnected(this)) {
+            showToast("当前网络不可用")
+            endRefresh()
+            return
+        }
+
+        getArticles(1, null)
+    }
+
+    private fun startRefresh() = rl_articles.beginRefreshing()
+
+    private fun startLoadMore() = rl_articles.beginLoadingMore()
+
+    private fun endRefresh() = rl_articles.endRefreshing()
+
+    private fun endLoadMore() = rl_articles.endLoadingMore()
+
+    private fun showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
 }
 
 class ArticlesRvAdapter(private val ctx: Context,
