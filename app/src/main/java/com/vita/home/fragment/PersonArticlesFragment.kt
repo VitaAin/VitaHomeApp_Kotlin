@@ -83,7 +83,7 @@ class PersonArticlesFragment : Fragment() {
         Log.i(TAG, "userId: " + mUserId)
         Api.get(context).getUserArticles(mUserId, object : Callback<Wrap<List<Article>>> {
             override fun onFailure(call: Call<Wrap<List<Article>>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
+                Log.e(TAG, "onFailure: ", t)
             }
 
             override fun onResponse(call: Call<Wrap<List<Article>>>, response: Response<Wrap<List<Article>>>) {

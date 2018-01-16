@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 
@@ -24,17 +23,16 @@ import kotlinx.android.synthetic.main.content_article_show.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.text.Html
-import com.vita.home.utils.FileUtils
 import java.net.URL
-import android.opengl.ETC1.getWidth
-import android.graphics.Color.LTGRAY
 import android.graphics.drawable.ColorDrawable
 import java.io.IOException
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.os.StrictMode
+import com.google.gson.Gson
+import com.vita.home.bean.IsLike
+import com.vita.home.helper.AccountHelper
 import java.net.HttpURLConnection
 
 
@@ -63,30 +61,54 @@ class ArticleShowActivity : AppCompatActivity() {
 
     private fun setupFab()
             = fab_in_article_show.setOnClickListener({ view ->
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+        like(article?.id!!)
     })
 
     private fun initData() {
         val articleId = intent.getIntExtra(Key.KEY_ARTICLE_ID, 0)
         Log.d(TAG, "ArticleId: " + articleId)
 
-        Api.get(this).getArticle(articleId, object : Callback<Wrap<Article>> {
-            override fun onFailure(call: Call<Wrap<Article>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
+        getArticle(articleId)
+        isLikeOrNot(articleId)
+    }
+
+    private fun getArticle(articleId: Int) =
+            Api.get(this).getArticle(articleId, object : Callback<Wrap<Article>> {
+                override fun onFailure(call: Call<Wrap<Article>>, t: Throwable) {
+                    Log.e(TAG, "onFailure: ", t)
+                }
+
+                override fun onResponse(call: Call<Wrap<Article>>, response: Response<Wrap<Article>>) {
+                    Log.i(TAG, "onResponse: " + response.body()?.message)
+                    if (response.body()?.status == 1) {
+                        article = response.body()?.data
+                        fillArticle()
+                    }
+                }
+            })
+
+    private fun isLikeOrNot(articleId: Int) {
+        if (!AccountHelper.check(this)) {
+            return
+        }
+        Api.get(this).isLikeOrNot(articleId, object : Callback<Wrap<IsLike>> {
+            override fun onFailure(call: Call<Wrap<IsLike>>?, t: Throwable?) {
+                Log.e(TAG, "onFailure: ", t)
             }
 
-            override fun onResponse(call: Call<Wrap<Article>>, response: Response<Wrap<Article>>) {
-                Log.i(TAG, "onResponse: " + response.body()?.message)
-                if (response.body()?.status == 1) {
-                    article = response.body()?.data
-                    fillArticle()
+            override fun onResponse(call: Call<Wrap<IsLike>>?, response: Response<Wrap<IsLike>>?) {
+                Log.i(TAG, "onResponse: " + response?.body()?.message)
+                Log.i(TAG, Gson().toJson(response?.body()))
+                if (response?.body()?.status == 1) {
+                    fillLike(response.body()?.data?.liked!!)
                 }
             }
         })
     }
 
-    fun fillArticle() {
+    private fun fillArticle() {
         ctl_article_show.title = article?.title
         if (article?.coverUrl != null) {
             Glide.with(this)
@@ -122,6 +144,27 @@ class ArticleShowActivity : AppCompatActivity() {
         }, tv_article_body)
         tv_article_body.text = spanned
     }
+
+    private fun fillLike(isLike: Boolean) =
+            if (isLike) {
+                fab_in_article_show.setImageResource(R.drawable.ic_favorite_accent_24dp)
+            } else {
+                fab_in_article_show.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+            }
+
+    private fun like(articleId: Int) =
+            Api.get(this).like(articleId, object : Callback<Wrap<IsLike>> {
+                override fun onResponse(call: Call<Wrap<IsLike>>?, response: Response<Wrap<IsLike>>?) {
+                    Log.i(TAG, "onResponse: " + response?.body()?.message)
+                    if (response?.body()?.status == 1) {
+                        fillLike(response.body()?.data?.liked!!)
+                    }
+                }
+
+                override fun onFailure(call: Call<Wrap<IsLike>>?, t: Throwable?) {
+                    Log.e(TAG, "onFailure: ", t)
+                }
+            })
 
     @Throws(IOException::class)
     private fun drawableFromUrl(url: String): Drawable {

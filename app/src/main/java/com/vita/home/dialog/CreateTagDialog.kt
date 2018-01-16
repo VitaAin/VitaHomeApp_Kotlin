@@ -109,7 +109,7 @@ class CreateTagDialog : AlertDialog, View.OnClickListener {
             }
 
             override fun onFailure(call: Call<Wrap<Tag>>?, t: Throwable?) {
-                Log.i(TAG, "onFailure: " + t.toString())
+                Log.e(TAG, "onFailure: ", t)
             }
         })
     }

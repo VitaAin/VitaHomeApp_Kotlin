@@ -84,16 +84,16 @@ interface ApiService {
     fun createComment(@Body() comment: Comment): Call<Wrap<Any>>
 
     @GET("article/is_like")
-    fun isLikeOrNot(@Body() id: Int): Call<Wrap<Any>>
+    fun isLikeOrNot(@Query("id") id: Int): Call<Wrap<IsLike>>
 
     @GET("article/like")
-    fun like(@Body() id: Int): Call<Wrap<Any>>
+    fun like(@Query("id") id: Int): Call<Wrap<IsLike>>
 
     @GET("user/is_follow")
-    fun isFollowOrNot(@Body() id: Int): Call<Wrap<Any>>
+    fun isFollowOrNot(@Query("id") id: Int): Call<Wrap<Any>>
 
     @GET("user/follow")
-    fun follow(@Body() id: Int): Call<Wrap<Any>>
+    fun follow(@Query("id") id: Int): Call<Wrap<Any>>
 
     @GET("notifications")
     fun getNotifications(): Call<Wrap<Any>>

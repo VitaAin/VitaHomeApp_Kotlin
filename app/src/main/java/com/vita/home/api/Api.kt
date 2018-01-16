@@ -71,4 +71,10 @@ class Api private constructor(ctx: Context) {
 
     fun editUserInfo(user: User, listener: Callback<Wrap<User>>)
             = mApiService.editUserInfo(user).enqueue(listener)
+
+    fun isLikeOrNot(id: Int, listener: Callback<Wrap<IsLike>>)
+            = mApiService.isLikeOrNot(id).enqueue(listener)
+
+    fun like(id: Int, listener: Callback<Wrap<IsLike>>)
+            = mApiService.like(id).enqueue(listener)
 }

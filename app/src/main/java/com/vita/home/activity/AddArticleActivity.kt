@@ -50,7 +50,7 @@ class AddArticleActivity : AppCompatActivity() {
     private fun initData() {
         Api.get(this).getCategories(object : Callback<Wrap<List<Category>>> {
             override fun onFailure(call: Call<Wrap<List<Category>>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
+                Log.e(TAG, "onFailure: ", t)
             }
 
             override fun onResponse(call: Call<Wrap<List<Category>>>, response: Response<Wrap<List<Category>>>) {
@@ -63,7 +63,7 @@ class AddArticleActivity : AppCompatActivity() {
         })
         Api.get(this).getTags(object : Callback<Wrap<List<Tag>>> {
             override fun onFailure(call: Call<Wrap<List<Tag>>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
+                Log.e(TAG, "onFailure: ", t)
             }
 
             override fun onResponse(call: Call<Wrap<List<Tag>>>, response: Response<Wrap<List<Tag>>>) {

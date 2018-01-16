@@ -105,7 +105,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Wrap<User>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
+                Log.e(TAG, "onFailure: ", t)
                 loginFinished()
             }
         })

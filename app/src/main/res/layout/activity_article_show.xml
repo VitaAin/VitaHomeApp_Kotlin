@@ -35,6 +35,7 @@
 
     <include layout="@layout/content_article_show"/>
 
+    <!--app:backgroundTint="#ccc"-->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_in_article_show"
         android:layout_width="wrap_content"
@@ -42,6 +43,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/abl_article_show"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_thumb_up_white_24dp"/>
+        app:rippleColor="#ff87ffeb"
+        app:srcCompat="@drawable/ic_favorite_border_black_24dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

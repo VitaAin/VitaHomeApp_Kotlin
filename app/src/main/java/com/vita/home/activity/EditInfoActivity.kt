@@ -87,7 +87,7 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         updateUser()
         Api.get(this@EditInfoActivity).editUserInfo(mUser!!, object : Callback<Wrap<User>> {
             override fun onFailure(call: Call<Wrap<User>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
+                Log.e(TAG, "onFailure: ", t)
             }
 
             override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {

@@ -83,7 +83,7 @@ class PersonFollowsFragment : Fragment() {
     private fun initData() {
         Api.get(context).getUserFollowUsers(mUserId, object : Callback<Wrap<List<User>>> {
             override fun onFailure(call: Call<Wrap<List<User>>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
+                Log.e(TAG, "onFailure: ", t)
             }
 
             override fun onResponse(call: Call<Wrap<List<User>>>, response: Response<Wrap<List<User>>>) {

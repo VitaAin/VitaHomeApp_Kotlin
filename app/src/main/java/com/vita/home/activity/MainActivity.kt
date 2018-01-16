@@ -111,25 +111,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun initData() = getArticles(1, null)
 
-    private fun getArticles(page: Int, tagName: String?) {
-        Api.get(this).getArticles(page, tagName, object : Callback<Wrap<Articles>> {
-            override fun onFailure(call: Call<Wrap<Articles>>, t: Throwable) {
-                Log.e(TAG, "onFailure: " + t.toString())
-                endRefresh()
-                endLoadMore()
-            }
-
-            override fun onResponse(call: Call<Wrap<Articles>>, response: Response<Wrap<Articles>>) {
-                Log.i(TAG, "onResponse: " + response.body()?.message)
-                endRefresh()
-                endLoadMore()
-                if (response.body()?.status == 1) {
-                    mArticles = response.body()?.data
-                    mArticlesRvAdapter?.replaceData(mArticles?.data)
+    private fun getArticles(page: Int, tagName: String?) =
+            Api.get(this).getArticles(page, tagName, object : Callback<Wrap<Articles>> {
+                override fun onFailure(call: Call<Wrap<Articles>>, t: Throwable) {
+                    Log.e(TAG, "onFailure: ", t)
+                    endRefresh()
+                    endLoadMore()
                 }
-            }
-        })
-    }
+
+                override fun onResponse(call: Call<Wrap<Articles>>, response: Response<Wrap<Articles>>) {
+                    Log.i(TAG, "onResponse: " + response.body()?.message)
+                    endRefresh()
+                    endLoadMore()
+                    if (response.body()?.status == 1) {
+                        mArticles = response.body()?.data
+                        mArticlesRvAdapter?.replaceData(mArticles?.data)
+                    }
+                }
+            })
 
     override fun onBackPressed() =
             if (drawer_main.isDrawerOpen(GravityCompat.START)) {

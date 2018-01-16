@@ -109,7 +109,7 @@ class CreateCategoryDialog : AlertDialog, View.OnClickListener {
             }
 
             override fun onFailure(call: Call<Wrap<Category>>?, t: Throwable?) {
-                Log.i(TAG, "onFailure: " + t.toString())
+                Log.e(TAG, "onFailure: ", t)
             }
         })
     }
