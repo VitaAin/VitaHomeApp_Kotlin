@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
@@ -64,6 +63,11 @@
         <activity
             android:name=".activity.NotificationsActivity"
             android:label="@string/title_activity_notifications"
+            android:theme="@style/VitaHomeAppTheme">
+        </activity>
+        <activity
+            android:name=".activity.AddArticleActivity2"
+            android:label="@string/title_activity_add_article2"
             android:theme="@style/VitaHomeAppTheme">
         </activity>
     </application>

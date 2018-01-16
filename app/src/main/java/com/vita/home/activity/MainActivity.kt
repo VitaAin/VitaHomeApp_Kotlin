@@ -73,7 +73,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun setupFab()
             = fab_in_main.setOnClickListener {
-        startActivity(Intent(this@MainActivity, AddArticleActivity::class.java))
+//        startActivity(Intent(this@MainActivity, AddArticleActivity::class.java))
+        startActivity(Intent(this@MainActivity, AddArticleActivity2::class.java))
     }
 
     private fun setupNavView()
