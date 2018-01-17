@@ -101,7 +101,9 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         })
     }
 
-    private fun jumpToImage() {
+    private val REQUEST_CODE_CHOOSE_USER_AVATAR = 1
+
+    private fun jumpToSystemImage() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -115,11 +117,9 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         mUser!!.sex = rb.text.toString()
     }
 
-    private val REQUEST_CODE_CHOOSE_USER_AVATAR = 1
-
     override fun onClick(v: View?) = when (v!!.id) {
         R.id.iv_user_avatar -> {
-            jumpToImage()
+            jumpToSystemImage()
         }
         else -> {
             // Do nothing

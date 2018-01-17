@@ -40,12 +40,6 @@
             android:theme="@style/VitaHomeAppTheme">
         </activity>
         <activity
-            android:name=".activity.AddArticleActivity"
-            android:label="@string/title_activity_add_article"
-            android:theme="@style/VitaHomeAppTheme"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
@@ -65,9 +59,10 @@
             android:label="@string/title_activity_notifications"
             android:theme="@style/VitaHomeAppTheme">
         </activity>
+        <!--android:windowSoftInputMode="adjustPan"-->
         <activity
-            android:name=".activity.AddArticleActivity2"
-            android:label="@string/title_activity_add_article2"
+            android:name=".activity.AddArticleActivity"
+            android:label="@string/title_activity_add_article"
             android:theme="@style/VitaHomeAppTheme">
         </activity>
     </application>

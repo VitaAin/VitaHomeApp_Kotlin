@@ -36,7 +36,7 @@ class Api private constructor(ctx: Context) {
     fun getArticle(id: Int, listener: Callback<Wrap<Article>>)
             = mApiService.getArticle(id).enqueue(listener)
 
-    fun createArticle(article: Article, listener: Callback<Wrap<Article>>)
+    fun createArticle(article: CreateArticleRequest, listener: Callback<Wrap<Article>>)
             = mApiService.createArticle(article).enqueue(listener)
 
     fun updateArticle(article: Article, listener: Callback<Wrap<Any>>)

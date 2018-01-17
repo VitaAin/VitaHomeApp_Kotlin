@@ -14,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout
 import com.bumptech.glide.Glide
@@ -73,8 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun setupFab()
             = fab_in_main.setOnClickListener {
-//        startActivity(Intent(this@MainActivity, AddArticleActivity::class.java))
-        startActivity(Intent(this@MainActivity, AddArticleActivity2::class.java))
+        startActivity(Intent(this@MainActivity, AddArticleActivity::class.java))
     }
 
     private fun setupNavView()

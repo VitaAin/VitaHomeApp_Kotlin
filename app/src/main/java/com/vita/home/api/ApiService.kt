@@ -36,7 +36,7 @@ interface ApiService {
     fun getArticle(@Path("id") id: Int): Call<Wrap<Article>>
 
     @POST("articles")
-    fun createArticle(@Body() article: Article): Call<Wrap<Article>>
+    fun createArticle(@Body() article: CreateArticleRequest): Call<Wrap<Article>>
 
     @PUT("articles/{id}")
     fun updateArticle(article: Article): Call<Wrap<Any>>
