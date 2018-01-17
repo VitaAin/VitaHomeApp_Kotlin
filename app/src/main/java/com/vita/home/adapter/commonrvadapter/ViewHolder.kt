@@ -375,7 +375,7 @@ class ViewHolder(private val mContext: Context, private val convertView: View) :
      * @param listener
      * @return
      */
-    fun setOnCheckedChangeListener(viewId: Int, listener: CompoundButton.OnCheckedChangeListener): ViewHolder {
+    fun setOnCheckedChangeListener(viewId: Int, listener: CompoundButton.OnCheckedChangeListener?): ViewHolder {
         getView<CompoundButton>(viewId)?.setOnCheckedChangeListener(listener)
         return this
     }

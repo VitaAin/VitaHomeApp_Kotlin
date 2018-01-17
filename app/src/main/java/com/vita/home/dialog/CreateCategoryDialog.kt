@@ -7,6 +7,7 @@ import android.support.annotation.StyleRes
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import com.google.gson.Gson
 
@@ -53,6 +54,9 @@ class CreateCategoryDialog : AlertDialog, View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_create_category)
+
+        // 点击输入框才能弹出软键盘
+        window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
 
         setCanceledOnTouchOutside(true)
         setCancelable(true)

@@ -9,4 +9,31 @@
     tools:context="com.vita.home.activity.AddArticleActivity2"
     tools:showIn="@layout/app_bar_add_article2">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <EditText
+            android:id="@+id/et_article_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="文章标题"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/et_article_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_et_article_body"
+            android:gravity="top"
+            android:hint="文章正文"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"/>
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

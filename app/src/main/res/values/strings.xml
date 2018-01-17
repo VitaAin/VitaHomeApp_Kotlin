@@ -119,5 +119,6 @@
     <string name="title_activity_add_article">写文章</string>
     <string name="title_activity_edit_info">修改信息</string>
     <string name="title_activity_notifications">消息通知</string>
-    <string name="title_activity_add_article2">AddArticleActivity2</string>
+    <string name="title_activity_add_article2">写文章</string>
+    <string name="action_options">选项</string>
 </resources>
