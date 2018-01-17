@@ -117,7 +117,7 @@
     <string name="action_create_tag">创建标签</string>
     <string name="action_done">完成</string>
     <string name="title_activity_add_article">写文章</string>
-    <string name="title_activity_edit_info">修改信息</string>
+    <string name="title_activity_edit_info">编辑资料</string>
     <string name="title_activity_notifications">消息通知</string>
     <string name="action_options">选项</string>
 </resources>

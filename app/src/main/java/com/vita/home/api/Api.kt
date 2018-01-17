@@ -77,4 +77,16 @@ class Api private constructor(ctx: Context) {
 
     fun like(id: Int, listener: Callback<Wrap<IsLike>>)
             = mApiService.like(id).enqueue(listener)
+
+    fun getNotifications(listener: Callback<Wrap<List<Notification>>>)
+            = mApiService.getNotifications().enqueue(listener)
+
+    fun getNoticeReply(listener: Callback<Wrap<List<Notification>>>)
+            = mApiService.getNoticeReply().enqueue(listener)
+
+    fun getNoticeFollow(listener: Callback<Wrap<List<Notification>>>)
+            = mApiService.getNoticeFollow().enqueue(listener)
+
+    fun getNoticeLike(listener: Callback<Wrap<List<Notification>>>)
+            = mApiService.getNoticeLike().enqueue(listener)
 }

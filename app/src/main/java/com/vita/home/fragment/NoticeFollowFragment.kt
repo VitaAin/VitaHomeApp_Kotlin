@@ -11,29 +11,31 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 
 import com.vita.home.R
 import com.vita.home.activity.ArticleShowActivity
+import com.vita.home.activity.PersonalCenterActivity
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
 import com.vita.home.adapter.commonrvadapter.ViewHolder
 import com.vita.home.api.Api
-import com.vita.home.bean.Article
+import com.vita.home.bean.Notification
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
+import com.vita.home.helper.AccountHelper
 import kotlinx.android.synthetic.main.fragment_with_rv.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PersonLikesFragment : Fragment() {
+class NoticeFollowFragment : Fragment() {
 
-    private val TAG = "PersonLikesFragment"
+    private val TAG = "NoticeFollowFragment"
 
     private var mListener: OnFragmentInteractionListener? = null
 
-    private var mUserId: Int = 0
-    private var mUserLikeArticleList: List<Article>? = ArrayList()
-    private var mUserLikeArticlesRvAdapter: UserLikesRvAdapter? = null
+    private var mNoticeFollowList: List<Notification>? = ArrayList()
+    private var mNoticeFollowRvAdapter: NoticeFollowRvAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +45,6 @@ class PersonLikesFragment : Fragment() {
 
     private fun getParams() {
         if (arguments != null) {
-            mUserId = arguments.getInt(Key.KEY_USER_ID)
         }
     }
 
@@ -55,7 +56,7 @@ class PersonLikesFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupPersonArticlesRv()
+        setupRv()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,32 +65,25 @@ class PersonLikesFragment : Fragment() {
         initData()
     }
 
-    private fun setupPersonArticlesRv() {
+    private fun setupRv() {
         rv_in_frag.layoutManager = LinearLayoutManager(context)
         rv_in_frag.hasFixedSize()
         rv_in_frag.itemAnimator = DefaultItemAnimator()
-        mUserLikeArticlesRvAdapter = UserLikesRvAdapter(context, mUserLikeArticleList, R.layout.item_person_like)
-        rv_in_frag.adapter = mUserLikeArticlesRvAdapter
-        mUserLikeArticlesRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
-            override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, ArticleShowActivity::class.java)
-                intent.putExtra(Key.KEY_ARTICLE_ID, mUserLikeArticleList?.get(position)?.id)
-                startActivity(intent)
-            }
-        })
+        mNoticeFollowRvAdapter = NoticeFollowRvAdapter(context, mNoticeFollowList, R.layout.item_notice_follow)
+        rv_in_frag.adapter = mNoticeFollowRvAdapter
     }
 
     private fun initData() {
-        Api.get(context).getUserLikeArticles(mUserId, object : Callback<Wrap<List<Article>>> {
-            override fun onFailure(call: Call<Wrap<List<Article>>>, t: Throwable) {
+        Api.get(context).getNoticeFollow(object : Callback<Wrap<List<Notification>>> {
+            override fun onFailure(call: Call<Wrap<List<Notification>>>, t: Throwable) {
                 Log.e(TAG, "onFailure: ", t)
             }
 
-            override fun onResponse(call: Call<Wrap<List<Article>>>, response: Response<Wrap<List<Article>>>) {
+            override fun onResponse(call: Call<Wrap<List<Notification>>>, response: Response<Wrap<List<Notification>>>) {
                 Log.i(TAG, "onResponse: " + response.body()?.message)
                 if (response.body()?.status == 1) {
-                    mUserLikeArticleList = response.body()?.data
-                    mUserLikeArticlesRvAdapter?.replaceData(mUserLikeArticleList)
+                    mNoticeFollowList = response.body()?.data
+                    mNoticeFollowRvAdapter?.replaceData(mNoticeFollowList)
                 }
             }
         })
@@ -131,21 +125,25 @@ class PersonLikesFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(userId: Int): PersonLikesFragment {
-            val fragment = PersonLikesFragment()
+        fun newInstance(): NoticeFollowFragment {
+            val fragment = NoticeFollowFragment()
             val args = Bundle()
-            args.putInt(Key.KEY_USER_ID, userId)
             fragment.arguments = args
             return fragment
         }
     }
 }
 
-class UserLikesRvAdapter(ctx: Context, dataList: List<Article>?, layoutId: Int)
-    : RvCommonAdapter<Article>(ctx, dataList, layoutId) {
-    override fun convert(holder: ViewHolder, item: Article, position: Int) {
-        holder.setText(R.id.tv_article_title, item.title!!)
-        holder.setText(R.id.tv_comments_count, item.commentsCount.toString())
-        holder.setText(R.id.tv_likes_count, item.likesCount.toString())
+class NoticeFollowRvAdapter(private val ctx: Context, dataList: List<Notification>?, layoutId: Int)
+    : RvCommonAdapter<Notification>(ctx, dataList, layoutId) {
+    override fun convert(holder: ViewHolder, item: Notification, position: Int) {
+        holder.setText(R.id.tv_notice_follow_name, item.data?.name!!)
+        holder.setText(R.id.tv_notice_follow_create_at, item.createdAt!!)
+        holder.setOnClickListener(R.id.tv_notice_follow_name,
+                View.OnClickListener {
+                    var intent = Intent(ctx, PersonalCenterActivity::class.java)
+                    intent.putExtra(Key.KEY_USER_ID, item.data?.userId!!)
+                    ctx.startActivity(intent)
+                })
     }
 }

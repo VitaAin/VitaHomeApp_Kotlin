@@ -20,7 +20,7 @@ import com.vita.home.api.Api
 import com.vita.home.bean.Article
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
-import kotlinx.android.synthetic.main.fragment_person_articles.*
+import kotlinx.android.synthetic.main.fragment_with_rv.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,7 +49,7 @@ class PersonArticlesFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_person_articles, container, false)
+        return inflater!!.inflate(R.layout.fragment_with_rv, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -65,11 +65,11 @@ class PersonArticlesFragment : Fragment() {
     }
 
     private fun setupPersonArticlesRv() {
-        rv_person_articles.layoutManager = LinearLayoutManager(context)
-        rv_person_articles.hasFixedSize()
-        rv_person_articles.itemAnimator = DefaultItemAnimator()
+        rv_in_frag.layoutManager = LinearLayoutManager(context)
+        rv_in_frag.hasFixedSize()
+        rv_in_frag.itemAnimator = DefaultItemAnimator()
         mUserArticlesRvAdapter = UserArticlesRvAdapter(context, mUserArticleList, R.layout.item_person_article)
-        rv_person_articles.adapter = mUserArticlesRvAdapter
+        rv_in_frag.adapter = mUserArticlesRvAdapter
         mUserArticlesRvAdapter?.setOnItemClickListener(object : RvCommonAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ArticleShowActivity::class.java)

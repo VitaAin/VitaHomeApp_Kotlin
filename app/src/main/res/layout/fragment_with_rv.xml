@@ -5,7 +5,7 @@
              tools:context="com.vita.home.fragment.PersonArticlesFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_person_articles"
+        android:id="@+id/rv_in_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

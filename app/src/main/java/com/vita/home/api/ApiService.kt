@@ -96,16 +96,16 @@ interface ApiService {
     fun follow(@Query("id") id: Int): Call<Wrap<Any>>
 
     @GET("notifications")
-    fun getNotifications(): Call<Wrap<Any>>
+    fun getNotifications(): Call<Wrap<List<Notification>>>
 
     @GET("notice_reply")
-    fun getNoticeReply(): Call<Wrap<Any>>
+    fun getNoticeReply(): Call<Wrap<List<Notification>>>
 
     @GET("notice_follow")
-    fun getNoticeFollow(): Call<Wrap<Any>>
+    fun getNoticeFollow(): Call<Wrap<List<Notification>>>
 
     @GET("notice_like")
-    fun getNoticeLike(): Call<Wrap<Any>>
+    fun getNoticeLike(): Call<Wrap<List<Notification>>>
 
     class Factory {
         fun createApiService(ctx: Context): ApiService {

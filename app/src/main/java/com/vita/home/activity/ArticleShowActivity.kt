@@ -60,11 +60,11 @@ class ArticleShowActivity : AppCompatActivity() {
     }
 
     private fun setupFab()
-            = fab_in_article_show.setOnClickListener({ view ->
-        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-        like(article?.id!!)
-    })
+            = fab_in_article_show.setOnClickListener(
+            {
+                if (article?.id == null) return@setOnClickListener
+                like(article?.id!!)
+            })
 
     private fun initData() {
         val articleId = intent.getIntExtra(Key.KEY_ARTICLE_ID, 0)

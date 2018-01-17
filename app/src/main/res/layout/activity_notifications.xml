@@ -8,4 +8,24 @@
     android:orientation="vertical"
     tools:context="com.vita.home.activity.NotificationsActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="2dp"
+        app:popupTheme="@style/VitaHomeAppTheme.PopupOverlay"
+        app:theme="@style/VitaHomeAppTheme.Toolbar"
+        app:titleTextColor="#fff"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

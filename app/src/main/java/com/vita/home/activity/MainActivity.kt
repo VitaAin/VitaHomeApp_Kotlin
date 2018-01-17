@@ -157,6 +157,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent.putExtra(Key.KEY_USER_ID, AccountHelper.getUserId(this))
                 startActivity(intent)
             }
+            R.id.menu_nav_notifications -> {
+                jumpTo(NotificationsActivity::class.java)
+            }
             R.id.menu_nav_edit_info -> {
                 jumpTo(EditInfoActivity::class.java)
             }
