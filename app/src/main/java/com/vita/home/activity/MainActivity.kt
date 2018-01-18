@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     try {
                         Glide.with(this).load(uri).into(nav_view_main.getHeaderView(0).iv_avatar)
                     } catch (e: SecurityException) {
-
+                        // TODO check permission and request
                     }
                 }
             }

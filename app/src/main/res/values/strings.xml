@@ -79,5 +79,6 @@
     <string name="already_follow">已关注</string>
     <string name="tags_is"><![CDATA[> 标签：]]></string>
     <string name="category_is"><![CDATA[> 分类：]]></string>
+    <string name="please_upload_cover">请上传封面</string>
 
 </resources>

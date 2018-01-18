@@ -128,6 +128,12 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
     private fun createArticle() {
         var newArticle = CreateArticleRequest()
         newArticle.title = et_article_title.text.toString()
+        // TODO add cover url
+        if (TextUtils.isEmpty(newArticle.coverUrl)) {
+            ToastUtils.showShort(this, getString(R.string.please_upload_cover))
+            return
+        }
+        newArticle.coverUrl = ""
         newArticle.body = et_article_body.text.toString()
         if (mSelectedCategory == null) {
             ToastUtils.showShort(this, getString(R.string.please_choose_category))
