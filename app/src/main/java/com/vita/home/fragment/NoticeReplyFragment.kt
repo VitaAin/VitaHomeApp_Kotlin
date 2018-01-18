@@ -138,7 +138,8 @@ class NoticeReplyRvAdapter(private val ctx: Context, dataList: List<Notification
     override fun convert(holder: ViewHolder, item: Notification, position: Int) {
         holder.setText(R.id.tv_notice_reply_user, item.data?.name!! + ": ")
         holder.setText(R.id.tv_notice_reply_comment, item.data?.comment!!)
-        holder.setText(R.id.tv_notice_reply_title, "主题: " + item.data?.title!!)
+        holder.setText(R.id.tv_notice_reply_title, ctx.getString(R.string.theme_is)
+                + item.data?.title!!)
         holder.setText(R.id.tv_notice_reply_create_at, item.createdAt!!)
         holder.setOnClickListener(R.id.tv_notice_reply_user,
                 View.OnClickListener {

@@ -59,8 +59,8 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         et_email.setText(mUser!!.email)
         et_real_name.setText(mUser!!.realName)
         var checkedRbId: Int = when {
-            TextUtils.equals("男", mUser!!.sex) -> rb_sex_male.id
-            TextUtils.equals("女", mUser!!.sex) -> rb_sex_female.id
+            TextUtils.equals(getString(R.string.sex_male), mUser!!.sex) -> rb_sex_male.id
+            TextUtils.equals(getString(R.string.sex_female), mUser!!.sex) -> rb_sex_female.id
             else -> -1
         }
         if (checkedRbId != -1) {
@@ -107,7 +107,7 @@ class EditInfoActivity : AppCompatActivity(), View.OnClickListener, RadioGroup.O
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Choose User Avatar"),
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_user_avatar)),
                 REQUEST_CODE_CHOOSE_USER_AVATAR)
     }
 

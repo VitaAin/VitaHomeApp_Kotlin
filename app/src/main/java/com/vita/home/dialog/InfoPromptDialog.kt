@@ -5,35 +5,25 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.StyleRes
 import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
-import com.google.gson.Gson
 
 import com.vita.home.R
-import com.vita.home.api.Api
-import com.vita.home.bean.Category
-import com.vita.home.bean.Wrap
-import kotlinx.android.synthetic.main.content_create_category.*
 import kotlinx.android.synthetic.main.content_dialog_btns.*
 import kotlinx.android.synthetic.main.content_dialog_title.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.android.synthetic.main.content_info_prompt.*
 
 /**
- * @FileName: com.vita.home.dialog.CreateCategoryDialog.java
+ * @FileName: com.vita.home.dialog.InfoPromptDialog.java
  * @Author: Vita
- * @Date: 2018-01-15 10:53
+ * @Date: 2018-01-18 10:53
  * @Usage:
  */
-class CreateCategoryDialog : AlertDialog, View.OnClickListener {
+class InfoPromptDialog : AlertDialog, View.OnClickListener {
 
-    private val TAG: String = "CreateCategoryDialog"
+    private val TAG: String = "InfoPromptDialog"
     private var mContext: Context? = null
-
-    private var mListener: OnDataCompletedListener? = null
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -53,7 +43,7 @@ class CreateCategoryDialog : AlertDialog, View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_create_category)
+        setContentView(R.layout.dialog_info_prompt)
 
         // 点击输入框才能弹出软键盘
         window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
@@ -65,7 +55,7 @@ class CreateCategoryDialog : AlertDialog, View.OnClickListener {
     }
 
     private fun initViews() {
-        setTitle(mContext?.getString(R.string.create_category))
+        setTitle(mContext?.getString(R.string.info_prompt))
     }
 
     override fun setTitle(title: CharSequence?) {
@@ -77,13 +67,21 @@ class CreateCategoryDialog : AlertDialog, View.OnClickListener {
         setButtons()
     }
 
+    fun setInfo(info: String) {
+        tv_main_info.text = info
+    }
+
+    fun setSecondaryInfo(secondaryInfo: String) {
+        tv_secondary_info.text = secondaryInfo
+    }
+
     fun setButtons() {
         setButtonAction(DialogInterface.BUTTON_NEGATIVE, mContext?.getString(R.string.cancel)!!, this)
         setButtonAction(DialogInterface.BUTTON_POSITIVE, mContext?.getString(R.string.ok)!!, this)
     }
 
-    private fun setButtonAction(whichButton: Int, text: CharSequence, listener: View.OnClickListener)
-            : CreateCategoryDialog {
+    fun setButtonAction(whichButton: Int, text: CharSequence, listener: View.OnClickListener)
+            : InfoPromptDialog {
         when (whichButton) {
             DialogInterface.BUTTON_NEGATIVE -> setBtnStyle(btn_dialog_cancel, text, listener)
             DialogInterface.BUTTON_POSITIVE -> setBtnStyle(btn_dialog_ok, text, listener)
@@ -99,42 +97,14 @@ class CreateCategoryDialog : AlertDialog, View.OnClickListener {
         btn.setOnClickListener(listener)
     }
 
-    private fun createCategory() {
-        var name = et_category_name.text.toString()
-        var desc = et_category_desc.text.toString()
-        var category = Category(name, desc)
-        Log.d(TAG, Gson().toJson(category))
-        Api.get(mContext!!).createCategory(category, object : Callback<Wrap<Category>> {
-            override fun onResponse(call: Call<Wrap<Category>>?, response: Response<Wrap<Category>>?) {
-                Log.i(TAG, "onResponse: " + response?.body()?.message)
-                if (response?.body()?.status == 1) {
-                    mListener?.onDataCompleted(response.body()?.data!!)
-                }
-            }
-
-            override fun onFailure(call: Call<Wrap<Category>>?, t: Throwable?) {
-                Log.e(TAG, "onFailure: ", t)
-            }
-        })
-    }
-
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_dialog_cancel -> {
                 cancel()
             }
             R.id.btn_dialog_ok -> {
-                createCategory()
                 dismiss()
             }
         }
-    }
-
-    fun setOnDataCompletedListener(listener: OnDataCompletedListener) {
-        mListener = listener
-    }
-
-    interface OnDataCompletedListener {
-        fun onDataCompleted(category: Category)
     }
 }

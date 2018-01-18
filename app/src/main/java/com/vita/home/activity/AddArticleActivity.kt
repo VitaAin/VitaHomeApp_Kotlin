@@ -130,7 +130,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
         newArticle.title = et_article_title.text.toString()
         newArticle.body = et_article_body.text.toString()
         if (mSelectedCategory == null) {
-            ToastUtils.showShort(this, "请选择分类")
+            ToastUtils.showShort(this, getString(R.string.please_choose_category))
             return
         }
         newArticle.categoryId = mSelectedCategory?.id!!
@@ -183,7 +183,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Choose Article Cover"),
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_article_cover)),
                 REQUEST_CODE_CHOOSE_ARTICLE_COVER)
     }
 

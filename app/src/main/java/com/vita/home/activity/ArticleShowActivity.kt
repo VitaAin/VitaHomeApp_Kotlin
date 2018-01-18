@@ -135,7 +135,7 @@ class ArticleShowActivity : AppCompatActivity() {
                 drawable = drawableFromUrl(source)
                 drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
             } catch (e: IOException) {
-                Log.e(TAG, "can't get image", e)
+                Log.e(TAG, "Can't get image", e)
                 drawable = ColorDrawable(Color.LTGRAY)
                 drawable.setBounds(0, 0,
                         tv_article_body.width - tv_article_body.paddingLeft - tv_article_body.paddingRight, 400)

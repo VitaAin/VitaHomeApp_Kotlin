@@ -14,8 +14,7 @@
             android:id="@+id/et_category_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="分类名称"
-            android:text="新分类"
+            android:hint="@string/category_name"
             android:inputType="text"
             android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
@@ -26,10 +25,9 @@
 
         <EditText
             android:id="@+id/et_category_desc"
-            android:text="我是描述"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="分类描述"
+            android:hint="@string/category_desc"
             android:inputType="text"
             android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>

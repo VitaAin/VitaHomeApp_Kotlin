@@ -146,7 +146,8 @@ class UserArticlesRvAdapter(ctx: Context, dataList: List<Article>?, layoutId: In
     : RvCommonAdapter<Article>(ctx, dataList, layoutId) {
     override fun convert(holder: ViewHolder, item: Article, position: Int) {
         holder.setText(R.id.tv_article_title, item.title!!)
-        holder.setText(R.id.tv_comments_count, item.commentsCount.toString())
-        holder.setText(R.id.tv_likes_count, item.likesCount.toString())
+        holder.setText(R.id.tv_article_comments_count, item.commentsCount.toString())
+        holder.setText(R.id.tv_article_likes_count, item.likesCount.toString())
+        holder.setText(R.id.tv_article_created_at, item.createdAt.toString())
     }
 }

@@ -65,7 +65,7 @@ class CreateTagDialog : AlertDialog, View.OnClickListener {
     }
 
     private fun initViews() {
-        setTitle("创建标签")
+        setTitle(mContext?.getString(R.string.create_tag))
     }
 
     override fun setTitle(title: CharSequence?) {
@@ -78,8 +78,8 @@ class CreateTagDialog : AlertDialog, View.OnClickListener {
     }
 
     fun setButtons() {
-        setButtonAction(DialogInterface.BUTTON_NEGATIVE, "取消", this)
-        setButtonAction(DialogInterface.BUTTON_POSITIVE, "确定", this)
+        setButtonAction(DialogInterface.BUTTON_NEGATIVE, mContext?.getString(R.string.cancel)!!, this)
+        setButtonAction(DialogInterface.BUTTON_POSITIVE, mContext?.getString(R.string.ok)!!, this)
     }
 
     private fun setButtonAction(whichButton: Int, text: CharSequence, listener: View.OnClickListener)
@@ -99,7 +99,7 @@ class CreateTagDialog : AlertDialog, View.OnClickListener {
         btn.setOnClickListener(listener)
     }
 
-    private fun createCategory() {
+    private fun createTag() {
         var name = et_category_name.text.toString()
         var desc = et_category_desc.text.toString()
         var tag = Tag(name, desc)
@@ -124,7 +124,7 @@ class CreateTagDialog : AlertDialog, View.OnClickListener {
                 cancel()
             }
             R.id.btn_dialog_ok -> {
-                createCategory()
+                createTag()
                 dismiss()
             }
         }

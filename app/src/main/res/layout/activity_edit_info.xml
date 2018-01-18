@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:enabled="false"
-            android:hint="用户名"
+            android:hint="@string/username"
             android:inputType="text"
             android:maxLines="1"/>
 
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:hint="邮箱"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:maxLines="1"/>
 
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:enabled="true"
-            android:hint="真实姓名"
+            android:hint="@string/real_name"
             android:inputType="text"
             android:maxLines="1"/>
 
@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="性别："/>
+                android:text="@string/sex_is"/>
 
             <RadioGroup
                 android:id="@+id/rg_sex"
@@ -83,14 +83,15 @@
                     android:id="@+id/rb_sex_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="男"/>
+                    android:text="@string/sex_male"/>
 
                 <RadioButton
                     android:id="@+id/rb_sex_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="女"/>
+                    android:layout_marginStart="8dp"
+                    android:text="@string/sex_female"/>
             </RadioGroup>
 
         </LinearLayout>
@@ -100,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:hint="QQ"
+            android:hint="@string/qq"
             android:inputType="numberDecimal"
             android:maxLines="1"/>
 
@@ -109,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:hint="手机号"
+            android:hint="@string/phone_number"
             android:inputType="phone"
             android:maxLines="1"/>
 
@@ -118,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:hint="所在城市"
+            android:hint="@string/location_city"
             android:inputType="text"
             android:maxLines="1"/>
 
@@ -130,7 +131,7 @@
             android:background="@drawable/shape_et_article_body"
             android:enabled="true"
             android:gravity="top"
-            android:hint="介绍自己"
+            android:hint="@string/introduce_self"
             android:inputType="textMultiLine"
             android:maxLines="7"
             android:scrollbars="vertical"/>

@@ -1,6 +1,7 @@
 package com.vita.home.activity
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -12,7 +13,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout
@@ -25,6 +25,7 @@ import com.vita.home.bean.Article
 import com.vita.home.bean.Articles
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
+import com.vita.home.dialog.InfoPromptDialog
 import com.vita.home.helper.AccountHelper
 import com.vita.home.utils.NetworkUtils
 import com.vita.home.utils.ToastUtils
@@ -136,20 +137,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 super.onBackPressed()
             }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        return if (id == R.id.menu_action_settings) {
-            true
-        } else super.onOptionsItemSelected(item)
-
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_nav_personal_center -> {
@@ -157,12 +144,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent.putExtra(Key.KEY_USER_ID, AccountHelper.getUserId(this))
                 startActivity(intent)
             }
-            R.id.menu_nav_notifications -> {
-                jumpTo(NotificationsActivity::class.java)
-            }
-            R.id.menu_nav_edit_info -> {
-                jumpTo(EditInfoActivity::class.java)
-            }
+            R.id.menu_nav_notifications -> jumpTo(NotificationsActivity::class.java)
+            R.id.menu_nav_edit_info -> jumpTo(EditInfoActivity::class.java)
+            R.id.menu_nav_settings -> jumpTo(SettingsActivity::class.java)
+            R.id.menu_nav_logout -> showLogoutDialog()
             else -> {
                 // Do nothing
             }
@@ -173,18 +158,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    private fun showLogoutDialog() {
+        var dialog = InfoPromptDialog(this)
+        dialog.show()
+        dialog.setInfo(getString(R.string.is_sure_to_exit))
+        dialog.setSecondaryInfo(getString(R.string.friendly_prompt_when_exit))
+        dialog.setButtonAction(DialogInterface.BUTTON_POSITIVE,getString(R.string.ok),
+                View.OnClickListener {
+                    logout()
+                    dialog.dismiss()
+                })
+    }
+
+    private fun logout(){
+
+    }
+
     private fun jumpTo(cls: Class<*>)
             = startActivity(Intent(this@MainActivity, cls))
 
     override fun onBGARefreshLayoutBeginLoadingMore(refreshLayout: BGARefreshLayout?): Boolean {
 
         if (!NetworkUtils.isNetworkConnected(this)) {
-            ToastUtils.showShort(this, "当前网络不可用")
+            ToastUtils.showShort(this, getString(R.string.network_is_invalid))
             endLoadMore()
             return false
         }
         if (mArticles?.nextPageUrl == null) {
-            ToastUtils.showShort(this, "没有更多数据了")
+            ToastUtils.showShort(this, getString(R.string.no_more_data))
             endLoadMore()
             return false
         }
@@ -195,7 +196,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBGARefreshLayoutBeginRefreshing(refreshLayout: BGARefreshLayout?) {
         if (!NetworkUtils.isNetworkConnected(this)) {
-            ToastUtils.showShort(this, "当前网络不可用")
+            ToastUtils.showShort(this, getString(R.string.network_is_invalid))
             endRefresh()
             return
         }

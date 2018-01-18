@@ -51,7 +51,7 @@ class NotificationsActivity : AppCompatActivity(),
     }
 
     private fun setupTabAndViewPager() {
-        val titles = arrayOf("回复", "关注", "点赞")
+        val titles = arrayOf(getString(R.string.reply), getString(R.string.follow), getString(R.string.thumb_like))
         vp_notifications.adapter = NoticeFragsAdapter(
                 supportFragmentManager, initFrags(), titles)
         tl_notifications.setupWithViewPager(vp_notifications)

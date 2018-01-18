@@ -10,13 +10,22 @@
         android:id="@+id/btn_dialog_cancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_weight="1"
-        style="@style/DialogButton"/>
+        android:background="@drawable/selector_white_button_pressed"
+        android:gravity="center"
+        android:textSize="14sp"/>
 
     <Button
         android:id="@+id/btn_dialog_ok"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_weight="1"
-        style="@style/DialogButton"/>
+        android:background="@drawable/selector_white_button_pressed"
+        android:textColor="@color/colorMyAccent"
+        android:textSize="14sp"/>
+
 </LinearLayout>

@@ -145,5 +145,6 @@ class UserRepliesRvAdapter(ctx: Context, dataList: List<Reply>?, layoutId: Int)
     : RvCommonAdapter<Reply>(ctx, dataList, layoutId) {
     override fun convert(holder: ViewHolder, item: Reply, position: Int) {
         holder.setText(R.id.tv_reply_content, item.content!!)
+        holder.setText(R.id.tv_reply_create_at, item.createdAt!!)
     }
 }

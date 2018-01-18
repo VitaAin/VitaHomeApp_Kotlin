@@ -87,7 +87,8 @@ class PersonalCenterActivity : AppCompatActivity(),
     }
 
     private fun setupTabAndViewPager() {
-        val titles = arrayOf("Articles", "Comments", "Likes", "Follows")
+        val titles = arrayOf(getString(R.string.article), getString(R.string.comment),
+                getString(R.string.like), getString(R.string.follow))
         vp_personal_center.setScrollable(true)
         vp_personal_center.adapter = PersonFragsAdapter(
                 supportFragmentManager, initFrags(), titles)

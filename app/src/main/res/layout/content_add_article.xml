@@ -20,7 +20,8 @@
             android:id="@+id/et_article_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="文章标题"
+            android:background="@drawable/shape_et_article_title"
+            android:hint="@string/article_title"
             android:inputType="text"
             android:maxLines="1"
             android:padding="4dp"/>
@@ -29,9 +30,10 @@
             android:id="@+id/et_article_body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:background="@drawable/shape_et_article_body"
             android:gravity="top"
-            android:hint="文章正文"
+            android:hint="@string/article_body"
             android:inputType="textMultiLine"
             android:padding="4dp"
             android:scrollbars="vertical"/>
