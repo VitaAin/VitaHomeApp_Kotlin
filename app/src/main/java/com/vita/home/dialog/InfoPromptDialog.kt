@@ -7,7 +7,7 @@ import android.support.annotation.StyleRes
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
+import android.widget.TextView
 
 import com.vita.home.R
 import kotlinx.android.synthetic.main.content_dialog_btns.*
@@ -83,8 +83,8 @@ class InfoPromptDialog : AlertDialog, View.OnClickListener {
     fun setButtonAction(whichButton: Int, text: CharSequence, listener: View.OnClickListener)
             : InfoPromptDialog {
         when (whichButton) {
-            DialogInterface.BUTTON_NEGATIVE -> setBtnStyle(btn_dialog_cancel, text, listener)
-            DialogInterface.BUTTON_POSITIVE -> setBtnStyle(btn_dialog_ok, text, listener)
+            DialogInterface.BUTTON_NEGATIVE -> setBtnStyle(dialog_opt_cancel, text, listener)
+            DialogInterface.BUTTON_POSITIVE -> setBtnStyle(dialog_opt_ok, text, listener)
             else -> {
                 // Do nothing
             }
@@ -92,17 +92,17 @@ class InfoPromptDialog : AlertDialog, View.OnClickListener {
         return this
     }
 
-    private fun setBtnStyle(btn: Button, text: CharSequence, listener: View.OnClickListener) {
+    private fun setBtnStyle(btn: TextView, text: CharSequence, listener: View.OnClickListener) {
         btn.text = text
         btn.setOnClickListener(listener)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.btn_dialog_cancel -> {
+            R.id.dialog_opt_cancel -> {
                 cancel()
             }
-            R.id.btn_dialog_ok -> {
+            R.id.dialog_opt_ok -> {
                 dismiss()
             }
         }

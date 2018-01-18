@@ -29,6 +29,9 @@ interface ApiService {
     @POST("user/login")
     fun login(@Body() account: LoginRequest): Call<Wrap<User>>
 
+    @GET("user/logout")
+    fun logout(): Call<Wrap<Any>>
+
     @GET("articles")
     fun getArticles(@Query("page") page: Int, @Query("tag") tagName: String?): Call<Wrap<Articles>>
 
@@ -90,10 +93,10 @@ interface ApiService {
     fun like(@Query("id") id: Int): Call<Wrap<IsLike>>
 
     @GET("user/is_follow")
-    fun isFollowOrNot(@Query("id") id: Int): Call<Wrap<Any>>
+    fun isFollowOrNot(@Query("id") id: Int): Call<Wrap<IsFollow>>
 
     @GET("user/follow")
-    fun follow(@Query("id") id: Int): Call<Wrap<Any>>
+    fun follow(@Query("id") id: Int): Call<Wrap<IsFollow>>
 
     @GET("notifications")
     fun getNotifications(): Call<Wrap<List<Notification>>>

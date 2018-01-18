@@ -4,27 +4,36 @@
               android:layout_height="match_parent"
               android:gravity="center_vertical"
               android:orientation="horizontal"
-              android:padding="@dimen/activity_horizontal_margin">
+              android:padding="8dp">
 
-    <Button
-        android:id="@+id/btn_dialog_cancel"
+    <TextView
+        android:id="@+id/dialog_opt_cancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_weight="1"
         android:background="@drawable/selector_white_button_pressed"
+        android:ellipsize="none"
         android:gravity="center"
+        android:maxLines="1"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:textSize="14sp"/>
 
-    <Button
-        android:id="@+id/btn_dialog_ok"
+    <TextView
+        android:id="@+id/dialog_opt_ok"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_weight="1"
         android:background="@drawable/selector_white_button_pressed"
+        android:ellipsize="none"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:textColor="@color/colorMyAccent"
         android:textSize="14sp"/>
 

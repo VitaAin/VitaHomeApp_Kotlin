@@ -27,8 +27,14 @@ class Api private constructor(ctx: Context) {
         val api = Api(mContext!!)
     }
 
+    fun register(listener: Callback<Wrap<Any>>)
+            = mApiService.register().enqueue(listener)
+
     fun login(account: LoginRequest, listener: Callback<Wrap<User>>)
             = mApiService.login(account).enqueue(listener)
+
+    fun logout(listener: Callback<Wrap<Any>>)
+            = mApiService.logout().enqueue(listener)
 
     fun getArticles(page: Int = 1, tagName: String?, listener: Callback<Wrap<Articles>>)
             = mApiService.getArticles(page, tagName).enqueue(listener)
@@ -77,6 +83,12 @@ class Api private constructor(ctx: Context) {
 
     fun like(id: Int, listener: Callback<Wrap<IsLike>>)
             = mApiService.like(id).enqueue(listener)
+
+    fun isFollowOrNot(id: Int, listener: Callback<Wrap<IsFollow>>)
+            = mApiService.isFollowOrNot(id).enqueue(listener)
+
+    fun follow(id: Int, listener: Callback<Wrap<IsFollow>>)
+            = mApiService.follow(id).enqueue(listener)
 
     fun getNotifications(listener: Callback<Wrap<List<Notification>>>)
             = mApiService.getNotifications().enqueue(listener)

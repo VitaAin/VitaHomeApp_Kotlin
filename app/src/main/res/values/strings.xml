@@ -9,6 +9,7 @@
     <string name="title_activity_edit_info">编辑资料</string>
     <string name="title_activity_notifications">消息通知</string>
     <string name="title_activity_settings">设置</string>
+    <string name="title_activity_about">关于</string>
 
     <string name="action_settings">设置</string>
     <string name="action_done">完成</string>
@@ -69,9 +70,14 @@
     <string name="follow_you">关注了少侠</string>
     <string name="like_your_theme">点赞了少侠的主题：</string>
     <string name="i_am_baseline">～我是最低的底线～</string>
-    <string name="logout">退出登录</string>
+    <string name="action_logout">退出登录</string>
     <string name="info_prompt">信息提示</string>
     <string name="is_sure_to_exit">少侠确认要退出吗？</string>
-    <string name="friendly_prompt_when_exit">（友情提示：退出会清除用户信息～）</string>
+    <string name="friendly_prompt_when_exit">友情提示：退出会清除用户信息～</string>
+    <string name="action_about">关于</string>
+    <string name="add_follow">+关注</string>
+    <string name="already_follow">已关注</string>
+    <string name="tags_is"><![CDATA[> 标签：]]></string>
+    <string name="category_is"><![CDATA[> 分类：]]></string>
 
 </resources>

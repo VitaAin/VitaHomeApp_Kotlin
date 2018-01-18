@@ -20,6 +20,7 @@
             android:id="@+id/et_article_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="@drawable/shape_et_article_title"
             android:hint="@string/article_title"
             android:inputType="text"

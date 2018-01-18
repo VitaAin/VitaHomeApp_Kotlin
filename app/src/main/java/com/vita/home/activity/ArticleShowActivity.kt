@@ -3,7 +3,6 @@ package com.vita.home.activity
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
@@ -30,16 +29,18 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.os.StrictMode
+import android.view.View
 import com.google.gson.Gson
+import com.vita.home.bean.IsFollow
 import com.vita.home.bean.IsLike
 import com.vita.home.helper.AccountHelper
 import java.net.HttpURLConnection
 
 
-class ArticleShowActivity : AppCompatActivity() {
+class ArticleShowActivity : AppCompatActivity(), View.OnClickListener {
 
     private val TAG: String = "ArticleShowActivity"
-    private var article: Article? = null
+    private var mArticle: Article? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +63,8 @@ class ArticleShowActivity : AppCompatActivity() {
     private fun setupFab()
             = fab_in_article_show.setOnClickListener(
             {
-                if (article?.id == null) return@setOnClickListener
-                like(article?.id!!)
+                if (mArticle?.id == null) return@setOnClickListener
+                like(mArticle?.id!!)
             })
 
     private fun initData() {
@@ -83,8 +84,9 @@ class ArticleShowActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Wrap<Article>>, response: Response<Wrap<Article>>) {
                     Log.i(TAG, "onResponse: " + response.body()?.message)
                     if (response.body()?.status == 1) {
-                        article = response.body()?.data
+                        mArticle = response.body()?.data
                         fillArticle()
+                        isFollowOrNot(mArticle?.userId!!)
                     }
                 }
             })
@@ -100,7 +102,6 @@ class ArticleShowActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<Wrap<IsLike>>?, response: Response<Wrap<IsLike>>?) {
                 Log.i(TAG, "onResponse: " + response?.body()?.message)
-                Log.i(TAG, Gson().toJson(response?.body()))
                 if (response?.body()?.status == 1) {
                     fillLike(response.body()?.data?.liked!!)
                 }
@@ -108,11 +109,40 @@ class ArticleShowActivity : AppCompatActivity() {
         })
     }
 
+    private fun isFollowOrNot(userId: Int) {
+        if (!AccountHelper.check(this)) {
+            return
+        }
+        Api.get(this).isFollowOrNot(userId, object : Callback<Wrap<IsFollow>> {
+            override fun onFailure(call: Call<Wrap<IsFollow>>?, t: Throwable?) {
+                Log.e(TAG, "onFailure: ", t)
+            }
+
+            override fun onResponse(call: Call<Wrap<IsFollow>>?, response: Response<Wrap<IsFollow>>?) {
+                Log.i(TAG, "onResponse: " + response?.body()?.message)
+                if (response?.body()?.status == 1) {
+                    fillFollow(response.body()?.data?.followed!!)
+                }
+            }
+        })
+    }
+
+    private fun fillUserColumn() {
+        Glide.with(this)
+                .load(mArticle?.user?.avatar)
+                .apply(GlideRequestOpts.centerCropOpts)
+                .into(iv_user_avatar)
+        tv_user_name.text = mArticle?.user?.name
+        tv_follow.visibility = View.VISIBLE
+        tv_follow.setOnClickListener(this@ArticleShowActivity)
+    }
+
     private fun fillArticle() {
-        ctl_article_show.title = article?.title
-        if (article?.coverUrl != null) {
+        fillUserColumn()
+        ctl_article_show.title = mArticle?.title
+        if (mArticle?.coverUrl != null) {
             Glide.with(this)
-                    .load(article?.coverUrl)
+                    .load(mArticle?.coverUrl)
                     .apply(GlideRequestOpts.centerCropOpts)
                     .into(object : SimpleTarget<Drawable>() {
                         override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>) {
@@ -121,14 +151,7 @@ class ArticleShowActivity : AppCompatActivity() {
                         }
                     })
         }
-        Glide.with(this)
-                .load(article?.user?.avatar)
-                .apply(GlideRequestOpts.centerCropOpts)
-                .into(iv_user_avatar)
-        tv_user_name.text = article?.user?.name
-        tv_created_at.text = article?.createdAt
-//        tv_article_body.text = article?.body
-        var spanned = MarkDown.fromMarkdown(article?.body, { source ->
+        var spanned = MarkDown.fromMarkdown(mArticle?.body, { source ->
             Log.d(TAG, "source: " + source)
             var drawable: Drawable
             try {
@@ -143,6 +166,24 @@ class ArticleShowActivity : AppCompatActivity() {
             return@fromMarkdown drawable
         }, tv_article_body)
         tv_article_body.text = spanned
+        fillCategoryAndTags()
+    }
+
+    private fun fillCategoryAndTags() {
+        tv_category.visibility = View.VISIBLE
+        tv_category.text = getString(R.string.category_is) + mArticle?.category?.name
+        if (mArticle?.tags?.size!! > 0) {
+            var tagsStr = getString(R.string.tags_is)
+            for (tag in mArticle?.tags!!) {
+                tagsStr += tag.name + "; "
+            }
+            tv_tags.visibility = View.VISIBLE
+            tv_tags.text = tagsStr
+        } else {
+            tv_tags.visibility = View.GONE
+        }
+        tv_create_at.visibility = View.VISIBLE
+        tv_create_at.text = mArticle?.createdAt
     }
 
     private fun fillLike(isLike: Boolean) =
@@ -150,6 +191,15 @@ class ArticleShowActivity : AppCompatActivity() {
                 fab_in_article_show.setImageResource(R.drawable.ic_favorite_accent_24dp)
             } else {
                 fab_in_article_show.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+            }
+
+    private fun fillFollow(isFollow: Boolean) =
+            if (isFollow) {
+                tv_follow.isActivated = true
+                tv_follow.text = getString(R.string.already_follow)
+            } else {
+                tv_follow.isActivated = false
+                tv_follow.text = getString(R.string.add_follow)
             }
 
     private fun like(articleId: Int) =
@@ -166,6 +216,20 @@ class ArticleShowActivity : AppCompatActivity() {
                 }
             })
 
+    private fun follow(userId: Int) =
+            Api.get(this).follow(userId, object : Callback<Wrap<IsFollow>> {
+                override fun onFailure(call: Call<Wrap<IsFollow>>?, t: Throwable?) {
+                    Log.e(TAG, "onFailure: ", t)
+                }
+
+                override fun onResponse(call: Call<Wrap<IsFollow>>?, response: Response<Wrap<IsFollow>>?) {
+                    Log.i(TAG, "onResponse: " + response?.body()?.message)
+                    if (response?.body()?.status == 1) {
+                        fillFollow(response.body()?.data?.followed!!)
+                    }
+                }
+            })
+
     @Throws(IOException::class)
     private fun drawableFromUrl(url: String): Drawable {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
@@ -179,6 +243,14 @@ class ArticleShowActivity : AppCompatActivity() {
 
         bmp = BitmapFactory.decodeStream(input)
         return BitmapDrawable(bmp)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.tv_follow -> {
+                follow(mArticle?.userId!!)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

@@ -15,13 +15,13 @@
             android:icon="@drawable/ic_info_black_24dp"
             android:title="@string/action_edit_info"/>
         <item
-            android:id="@+id/menu_nav_settings"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/action_settings"/>
+            android:id="@+id/menu_nav_about"
+            android:icon="@drawable/ic_description_black_24dp"
+            android:title="@string/action_about"/>
         <item
             android:id="@+id/menu_nav_logout"
             android:icon="@drawable/ic_exit_to_app_black_24dp"
-            android:title="@string/logout"/>
+            android:title="@string/action_logout"/>
     </group>
 
 </menu>
