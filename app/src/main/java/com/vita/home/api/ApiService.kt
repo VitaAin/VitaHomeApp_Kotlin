@@ -4,6 +4,7 @@ import android.content.Context
 import com.vita.home.bean.*
 import com.vita.home.helper.AccountHelper
 import okhttp3.Interceptor
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Call
@@ -109,6 +110,12 @@ interface ApiService {
 
     @GET("notice_like")
     fun getNoticeLike(): Call<Wrap<List<Notification>>>
+
+    @Multipart
+    @POST("avatar/upload")
+    fun uploadUserAvatar(@Part file: MultipartBody.Part): Call<Wrap<Image>>
+
+    fun uploadUserImage()
 
     class Factory {
         fun createApiService(ctx: Context): ApiService {

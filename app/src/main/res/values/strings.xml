@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">苍澜阁</string>
 
+    <!-- Strings related to Permission  -->
+    <string name="permission_get_accounts_hint">Permission denied. Please open PERMISSION_GET_ACCOUNTS</string>
+    <string name="permission_read_phone_hint">Permission denied. Please open PERMISSION_READ_PHONE_STATE</string>
+    <string name="permission_call_phone_hint">Permission denied. Please open PERMISSION_CALL_PHONE</string>
+    <string name="permission_camera_hint">Permission denied. Please open PERMISSION_CAMERA</string>
+    <string name="permission_access_fine_location_hint">Permission denied. Please open PERMISSION_ACCESS_FINE_LOCATION</string>
+    <string name="permission_access_coarse_location_hint">Permission denied. Please open PERMISSION_ACCESS_COARSE_LOCATION</string>
+    <string name="permission_read_external_hint">Permission denied. Please open PERMISSION_READ_EXTERNAL_STORAGE</string>
+    <string name="permission_white_external_hint">Permission denied. Please open PERMISSION_WRITE_EXTERNAL_STORAGE</string>
+    <string name="permission_recode_audio_hint">Permission denied. Please open PERMISSION_RECORD_AUDIO</string>
+
+    <!-- Strings related to activity title  -->
     <string name="title_activity_main">苍澜阁</string>
     <string name="title_activity_login">登录</string>
     <string name="title_activity_article_show">文章</string>
@@ -11,6 +23,7 @@
     <string name="title_activity_settings">设置</string>
     <string name="title_activity_about">关于</string>
 
+    <!-- Strings related to menu action  -->
     <string name="action_settings">设置</string>
     <string name="action_done">完成</string>
     <string name="action_options">选项</string>

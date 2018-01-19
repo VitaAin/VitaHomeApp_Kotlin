@@ -2,7 +2,11 @@ package com.vita.home.api
 
 import android.content.Context
 import com.vita.home.bean.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Callback
+import java.io.File
 
 /**
  *
@@ -101,4 +105,10 @@ class Api private constructor(ctx: Context) {
 
     fun getNoticeLike(listener: Callback<Wrap<List<Notification>>>)
             = mApiService.getNoticeLike().enqueue(listener)
+
+    fun uploadUserAvatar(file: File, listener: Callback<Wrap<Image>>) {
+        var requestBody = RequestBody.create(MediaType.parse("image/*"), file)
+        var part = MultipartBody.Part.createFormData("file", file.name, requestBody)
+        mApiService.uploadUserAvatar(part).enqueue(listener)
+    }
 }

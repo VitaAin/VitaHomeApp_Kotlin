@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -19,17 +21,21 @@ import android.view.MenuItem
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.vita.home.R
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
 import com.vita.home.adapter.commonrvadapter.ViewHolder
 import com.vita.home.api.Api
 import com.vita.home.bean.Article
 import com.vita.home.bean.Articles
+import com.vita.home.bean.Image
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
 import com.vita.home.dialog.InfoPromptDialog
 import com.vita.home.helper.AccountHelper
 import com.vita.home.utils.NetworkUtils
+import com.vita.home.utils.PermissionsUtils
+import com.vita.home.utils.SystemUtils
 import com.vita.home.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -38,6 +44,7 @@ import kotlinx.android.synthetic.main.nav_header_main.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, BGARefreshLayout.BGARefreshLayoutDelegate, View.OnClickListener {
 
@@ -50,8 +57,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        handlePermissions()
+
         setupViews()
         initData()
+    }
+
+    private fun handlePermissions() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
+
+        PermissionsUtils.requestMultiPermissions(this, object : PermissionsUtils.PermissionGrant {
+            override fun onPermissionGranted(requestCode: Int) {
+                Log.d(TAG, "onPermissionGranted: requestCode:: " + requestCode)
+            }
+        })
     }
 
     private fun setupViews() {
@@ -133,19 +152,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             })
 
-    private val REQUEST_CODE_CHOOSE_USER_AVATAR = 1
+    private fun uploadAvatar(uri: Uri) {
+        var path = SystemUtils.getImagePath(this, uri)
+        var file = File(path)
+        Api.get(this).uploadUserAvatar(file, object : Callback<Wrap<Image>> {
+            override fun onResponse(call: Call<Wrap<Image>>?, response: Response<Wrap<Image>>?) {
+                Log.i(TAG, "onResponse: " + response?.body()?.message)
+                Log.d(TAG, Gson().toJson(response?.body()))
+                if (response?.body()?.status == 1) {
+                    AccountHelper.updateUserAvatar(this@MainActivity, response.body()?.data?.url!!)
+                }
+            }
 
-    private fun jumpToSystemImage() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_user_avatar)),
-                REQUEST_CODE_CHOOSE_USER_AVATAR)
+            override fun onFailure(call: Call<Wrap<Image>>?, t: Throwable?) {
+                Log.e(TAG, "onFailure: ", t)
+            }
+        })
     }
 
     override fun onClick(v: View?) =
             when (v?.id) {
-                R.id.iv_avatar -> jumpToSystemImage()
+                R.id.iv_avatar -> {
+                    SystemUtils.openImage(this, getString(R.string.choose_user_avatar))
+                }
                 else -> {
                     // Do nothing
                 }
@@ -154,12 +183,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            REQUEST_CODE_CHOOSE_USER_AVATAR -> {
+            SystemUtils.REQUEST_CODE_CHOOSE_IMAGE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val uri: Uri = data?.data!!
-                    Log.d(TAG, "onActivityResult: uri: " + uri.path)
                     try {
                         Glide.with(this).load(uri).into(nav_view_main.getHeaderView(0).iv_avatar)
+                        uploadAvatar(uri)
                     } catch (e: SecurityException) {
                         // TODO check permission and request
                     }

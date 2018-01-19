@@ -20,11 +20,11 @@ import java.util.List;
 
 public class FileUtils {
 
-    private static final String TAG = "SmartService_FileUtils";
+    private static final String TAG = "FileUtils";
 
     private FileUtils() {
         /* cannot be instantiated */
-        throw new UnsupportedOperationException("FileUtils cannot be instantiated");
+        throw new UnsupportedOperationException("cannot be instantiated");
     }
 
     /**

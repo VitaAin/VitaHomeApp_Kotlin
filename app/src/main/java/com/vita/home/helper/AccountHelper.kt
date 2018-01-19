@@ -34,13 +34,20 @@ object AccountHelper {
 
     fun updateUser(ctx: Context, new: User) {
         var user = getUser(ctx)
+        SPUtils.remove(ctx, Key.KEY_USER)
         user.realName = new.realName
         user.sex = new.sex
         user.phone = new.phone
         user.qq = new.qq
         user.city = new.city
         user.introduction = new.introduction
+        SPUtils.put(ctx, Key.KEY_USER, Gson().toJson(user))
+    }
+
+    fun updateUserAvatar(ctx: Context, avatarUrl: String) {
+        var user = getUser(ctx)
         SPUtils.remove(ctx, Key.KEY_USER)
+        user.avatar = avatarUrl
         SPUtils.put(ctx, Key.KEY_USER, Gson().toJson(user))
     }
 }
