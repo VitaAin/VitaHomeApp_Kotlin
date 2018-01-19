@@ -133,8 +133,12 @@ class ArticleShowActivity : AppCompatActivity(), View.OnClickListener {
                 .apply(GlideRequestOpts.centerCropOpts)
                 .into(iv_user_avatar)
         tv_user_name.text = mArticle?.user?.name
-        tv_follow.visibility = View.VISIBLE
-        tv_follow.setOnClickListener(this@ArticleShowActivity)
+        if (AccountHelper.getUserId(this) == mArticle?.userId) {
+            tv_follow.visibility = View.GONE
+        } else {
+            tv_follow.visibility = View.VISIBLE
+            tv_follow.setOnClickListener(this@ArticleShowActivity)
+        }
     }
 
     private fun fillArticle() {

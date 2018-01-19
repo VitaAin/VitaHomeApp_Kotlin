@@ -55,6 +55,7 @@ class PersonRepliesFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupEmpty()
         setupPersonArticlesRv()
     }
 
@@ -62,6 +63,10 @@ class PersonRepliesFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         initData()
+    }
+
+    private fun setupEmpty() {
+        tv_empty.text = "少侠还没有发表任何回复~~"
     }
 
     private fun setupPersonArticlesRv() {
@@ -90,10 +95,20 @@ class PersonRepliesFragment : Fragment() {
                 if (response.body()?.status == 1) {
                     mUserReplyList = response.body()?.data
                     mUserRepliesRvAdapter?.replaceData(mUserReplyList)
+                    showEmpty(mUserRepliesRvAdapter?.itemCount == 0)
                 }
             }
         })
     }
+
+    private fun showEmpty(show: Boolean) =
+            if (show) {
+                tv_empty.visibility = View.VISIBLE
+                rv_in_frag.visibility = View.GONE
+            } else {
+                tv_empty.visibility = View.GONE
+                rv_in_frag.visibility = View.VISIBLE
+            }
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {

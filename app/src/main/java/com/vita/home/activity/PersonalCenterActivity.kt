@@ -25,6 +25,7 @@ import com.vita.home.fragment.PersonFollowsFragment
 import com.vita.home.fragment.PersonLikesFragment
 import com.vita.home.fragment.PersonRepliesFragment
 import com.vita.home.helper.AccountHelper
+import com.vita.home.helper.GlideRequestOpts
 import kotlinx.android.synthetic.main.activity_personal_center.*
 import kotlinx.android.synthetic.main.content_personal_center.*
 import kotlinx.android.synthetic.main.content_personal_center_top.*
@@ -65,8 +66,8 @@ class PersonalCenterActivity : AppCompatActivity(),
     }
 
     private fun setupCollapsingToolbarLayout() {
-        ctl_personal_center.setExpandedTitleColor(0x00000000)
-        ctl_personal_center.setCollapsedTitleTextColor(0xffffff)
+        ctl_personal_center.setExpandedTitleColor(resources.getColor(R.color.colorTransparent))
+        ctl_personal_center.setCollapsedTitleTextColor(resources.getColor(R.color.colorWhite))
     }
 
     private fun setupToolbar() {
@@ -115,7 +116,9 @@ class PersonalCenterActivity : AppCompatActivity(),
             return
         }
         ctl_personal_center.title = mUser!!.name
-        Glide.with(this).load(mUser!!.avatar).into(iv_user_avatar)
+        Glide.with(this).load(mUser!!.avatar)
+                .apply(GlideRequestOpts.basePersonOpts)
+                .into(iv_user_avatar)
         tv_username.text = mUser!!.name
         tv_email.text = mUser!!.email
     }

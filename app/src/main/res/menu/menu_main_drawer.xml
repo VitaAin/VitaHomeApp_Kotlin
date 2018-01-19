@@ -12,11 +12,11 @@
             android:title="@string/action_notifications"/>
         <item
             android:id="@+id/menu_nav_edit_info"
-            android:icon="@drawable/ic_info_black_24dp"
+            android:icon="@drawable/ic_description_black_24dp"
             android:title="@string/action_edit_info"/>
         <item
             android:id="@+id/menu_nav_about"
-            android:icon="@drawable/ic_description_black_24dp"
+            android:icon="@drawable/ic_info_black_24dp"
             android:title="@string/action_about"/>
         <item
             android:id="@+id/menu_nav_logout"

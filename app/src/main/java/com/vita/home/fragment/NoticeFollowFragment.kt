@@ -56,6 +56,7 @@ class NoticeFollowFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupEmpty()
         setupRv()
     }
 
@@ -63,6 +64,10 @@ class NoticeFollowFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         initData()
+    }
+
+    private fun setupEmpty() {
+        tv_empty.text = "少侠，当前还没有人关注你，\n快去结交更多侠士吧~~"
     }
 
     private fun setupRv() {
@@ -84,10 +89,20 @@ class NoticeFollowFragment : Fragment() {
                 if (response.body()?.status == 1) {
                     mNoticeFollowList = response.body()?.data
                     mNoticeFollowRvAdapter?.replaceData(mNoticeFollowList)
+                    showEmpty(mNoticeFollowRvAdapter?.itemCount == 0)
                 }
             }
         })
     }
+
+    private fun showEmpty(show: Boolean) =
+            if (show) {
+                tv_empty.visibility = View.VISIBLE
+                rv_in_frag.visibility = View.GONE
+            } else {
+                tv_empty.visibility = View.GONE
+                rv_in_frag.visibility = View.VISIBLE
+            }
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {

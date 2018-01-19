@@ -54,6 +54,7 @@ class NoticeLikeFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupEmpty()
         setupRv()
     }
 
@@ -61,6 +62,10 @@ class NoticeLikeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         initData()
+    }
+
+    private fun setupEmpty() {
+        tv_empty.text = "少侠，当前还没有人为你点赞，\n快去结交更多侠士吧~~"
     }
 
     private fun setupRv() {
@@ -82,10 +87,20 @@ class NoticeLikeFragment : Fragment() {
                 if (response.body()?.status == 1) {
                     mNoticeLikeList = response.body()?.data
                     mNoticeLikeRvAdapter?.replaceData(mNoticeLikeList)
+                    showEmpty(mNoticeLikeRvAdapter?.itemCount == 0)
                 }
             }
         })
     }
+
+    private fun showEmpty(show: Boolean) =
+            if (show) {
+                tv_empty.visibility = View.VISIBLE
+                rv_in_frag.visibility = View.GONE
+            } else {
+                tv_empty.visibility = View.GONE
+                rv_in_frag.visibility = View.VISIBLE
+            }
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {

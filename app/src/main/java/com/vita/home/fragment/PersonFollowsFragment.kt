@@ -56,6 +56,7 @@ class PersonFollowsFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupEmpty()
         setupPersonArticlesRv()
     }
 
@@ -63,6 +64,10 @@ class PersonFollowsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         initData()
+    }
+
+    private fun setupEmpty() {
+        tv_empty.text = "少侠还没有关注任何人~~"
     }
 
     private fun setupPersonArticlesRv() {
@@ -91,10 +96,20 @@ class PersonFollowsFragment : Fragment() {
                 if (response.body()?.status == 1) {
                     mUserFollowsList = response.body()?.data
                     mUserFollowsRvAdapter?.replaceData(mUserFollowsList)
+                    showEmpty(mUserFollowsRvAdapter?.itemCount == 0)
                 }
             }
         })
     }
+
+    private fun showEmpty(show: Boolean) =
+            if (show) {
+                tv_empty.visibility = View.VISIBLE
+                rv_in_frag.visibility = View.GONE
+            } else {
+                tv_empty.visibility = View.GONE
+                rv_in_frag.visibility = View.VISIBLE
+            }
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
