@@ -25,7 +25,8 @@
                 android:id="@+id/iv_user_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/shape_user_avatar_in_article_show"/>
+                android:background="@drawable/shape_user_avatar_in_article_show"
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/tv_user_name"

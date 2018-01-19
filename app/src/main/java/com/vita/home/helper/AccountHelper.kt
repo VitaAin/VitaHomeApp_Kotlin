@@ -50,4 +50,10 @@ object AccountHelper {
         user.avatar = avatarUrl
         SPUtils.put(ctx, Key.KEY_USER, Gson().toJson(user))
     }
+
+    fun clearUser(ctx: Context) {
+        SPUtils.remove(ctx, Key.KEY_TOKEN)
+        SPUtils.remove(ctx, Key.KEY_USER_ID)
+        SPUtils.remove(ctx, Key.KEY_USER)
+    }
 }

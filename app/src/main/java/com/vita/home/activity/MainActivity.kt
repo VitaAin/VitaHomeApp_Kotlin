@@ -20,6 +20,7 @@ import android.view.MenuItem
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.vita.home.R
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
 import com.vita.home.adapter.commonrvadapter.ViewHolder
@@ -59,6 +60,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         handlePermissions()
 
         setupViews()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         initData()
     }
 
@@ -120,7 +126,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         rl_articles.setRefreshViewHolder(refreshViewHolder)
         rl_articles.setIsShowLoadingMoreView(true)
         refreshViewHolder.setRefreshViewBackgroundColorRes(R.color.colorMyAccent)
-        refreshViewHolder.setLoadingMoreText("加载中...")
+        refreshViewHolder.setLoadingMoreText(getString(R.string.on_loading))
     }
 
     private fun fillUserInDrawer() {
@@ -236,7 +242,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun logout() {
+        Api.get(this).logout(object : Callback<Wrap<Any>> {
+            override fun onResponse(call: Call<Wrap<Any>>?, response: Response<Wrap<Any>>?) {
+                Log.i(TAG, "onResponse: " + response?.body()?.message)
+                Log.d(TAG, Gson().toJson(response?.body()))
+                if (response?.body()?.status == 1) {
+                    AccountHelper.clearUser(this@MainActivity)
+                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                    finish()
+                }
+            }
 
+            override fun onFailure(call: Call<Wrap<Any>>?, t: Throwable?) {
+                Log.e(TAG, "onFailure: ", t)
+            }
+        })
     }
 
     private fun jumpTo(cls: Class<*>)
@@ -288,6 +308,8 @@ class ArticlesRvAdapter(private val ctx: Context,
             holder.setVisibility(R.id.iv_article_cover, true)
             Glide.with(ctx).load(item.coverUrl)
                     .into(holder.getView(R.id.iv_article_cover))
+        } else {
+            holder.setVisibility(R.id.iv_article_cover, false)
         }
     }
 }
