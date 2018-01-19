@@ -10,17 +10,17 @@ import com.google.gson.annotations.SerializedName
  */
 class Article {
 
-    var id: Int = 0
+    var id: Int? = null
     var title: String? = null
     @SerializedName("cover_url")
     var coverUrl: String? = null
     var body: String? = null
     @SerializedName("user_id")
-    var userId: Int = 0
+    var userId: Int? = null
     @SerializedName("last_comment_user_id")
     var lastCommentUserId: Int = 0
     @SerializedName("category_id")
-    var categoryId: Int = 0
+    var categoryId: Int? = null
     @SerializedName("view_count")
     var viewCount: Int = 0
     @SerializedName("comments_count")

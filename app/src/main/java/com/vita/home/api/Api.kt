@@ -111,4 +111,10 @@ class Api private constructor(ctx: Context) {
         var part = MultipartBody.Part.createFormData("file", file.name, requestBody)
         mApiService.uploadUserAvatar(part).enqueue(listener)
     }
+
+    fun uploadUserImage(file: File, listener: Callback<Wrap<Image>>) {
+        var requestBody = RequestBody.create(MediaType.parse("image/*"), file)
+        var part = MultipartBody.Part.createFormData("file", file.name, requestBody)
+        mApiService.uploadUserImage(part).enqueue(listener)
+    }
 }

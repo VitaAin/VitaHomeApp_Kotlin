@@ -13,6 +13,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.CompoundButton
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexDirection
@@ -26,8 +28,11 @@ import com.vita.home.adapter.commonrvadapter.ViewHolder
 import com.vita.home.adapter.viewListadapter.ViewListAdapter
 import com.vita.home.api.Api
 import com.vita.home.bean.*
+import com.vita.home.constant.Key
 import com.vita.home.dialog.CreateCategoryDialog
 import com.vita.home.dialog.CreateTagDialog
+import com.vita.home.helper.GlideRequestOpts
+import com.vita.home.utils.SystemUtils
 import com.vita.home.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_add_article.*
 import kotlinx.android.synthetic.main.app_bar_add_article.*
@@ -36,6 +41,7 @@ import kotlinx.android.synthetic.main.content_add_article_drawer.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -45,6 +51,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
     private var mCategoriesSpAdapter: CategoriesSpAdapter? = null
     private var mTagsRvAdapter: TagsRvAdapter? = null
     private var mSelectedCategory: Category? = null
+    private var mCoverUrl: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +86,17 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
 
         mCategoriesSpAdapter = CategoriesSpAdapter(this, mCategories, R.layout.item_category)
         sp_categories.adapter = mCategoriesSpAdapter
+        sp_categories.setSelection(0)
+        sp_categories.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                mSelectedCategory = null
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Log.i(TAG, "onItemSelected: " + mCategories[position].name)
+                mSelectedCategory = mCategories[position]
+            }
+        }
 
         tv_add_cover.setOnClickListener(this@AddArticleActivity)
         iv_add_category.setOnClickListener(this@AddArticleActivity)
@@ -128,31 +146,60 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
     private fun createArticle() {
         var newArticle = CreateArticleRequest()
         newArticle.title = et_article_title.text.toString()
-        // TODO add cover url
-        if (TextUtils.isEmpty(newArticle.coverUrl)) {
+        if (TextUtils.isEmpty(mCoverUrl)) {
             ToastUtils.showShort(this, getString(R.string.please_upload_cover))
             return
         }
-        newArticle.coverUrl = ""
+        newArticle.coverUrl = mCoverUrl
         newArticle.body = et_article_body.text.toString()
         if (mSelectedCategory == null) {
             ToastUtils.showShort(this, getString(R.string.please_choose_category))
             return
         }
-        newArticle.categoryId = mSelectedCategory?.id!!
+        newArticle.category = mSelectedCategory?.id!!
         newArticle.tags = mTagsRvAdapter?.selectedTagsId
         Log.d(TAG, "Article done: " + Gson().toJson(newArticle))
-        // TODO create article
-//        Api.get(this).createArticle(newArticle, object : Callback<Wrap<Article>> {
-//            override fun onFailure(call: Call<Wrap<Article>>?, t: Throwable?) {
-//                Log.e(TAG, "onFailure: ", t)
-//            }
-//
-//            override fun onResponse(call: Call<Wrap<Article>>?, response: Response<Wrap<Article>>?) {
-//                Log.i(TAG, "onResponse: " + response?.body()?.message)
-//                Log.d(TAG, Gson().toJson(response?.body()))
-//            }
-//        })
+        Api.get(this).createArticle(newArticle, object : Callback<Wrap<Article>> {
+            override fun onFailure(call: Call<Wrap<Article>>?, t: Throwable?) {
+                Log.e(TAG, "onFailure: ", t)
+            }
+
+            override fun onResponse(call: Call<Wrap<Article>>?, response: Response<Wrap<Article>>?) {
+                Log.i(TAG, "onResponse: " + response?.body()?.message)
+                if (response?.body()?.status == 1) {
+                    ToastUtils.showShort(this@AddArticleActivity, getString(R.string.create_successfully))
+                    var intent = Intent(this@AddArticleActivity, ArticleShowActivity::class.java)
+                    intent.putExtra(Key.KEY_ARTICLE_ID, response.body()?.data?.id)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        })
+    }
+
+    private fun uploadCover(uri: Uri) {
+        var path = SystemUtils.getImagePath(this, uri)
+        // TODO check extension and size of file
+        var file = File(path)
+        Api.get(this).uploadUserImage(file, object : Callback<Wrap<Image>> {
+            override fun onFailure(call: Call<Wrap<Image>>?, t: Throwable?) {
+                Log.e(TAG, "onFailure: ", t)
+            }
+
+            override fun onResponse(call: Call<Wrap<Image>>?, response: Response<Wrap<Image>>?) {
+                Log.i(TAG, "onResponse: " + response?.body()?.message)
+                Log.i(TAG, Gson().toJson(response?.body()))
+                if (response?.body()?.status == 1) {
+                    mCoverUrl = response.body()?.data?.url!!
+                    Log.i(TAG, "cover: " + mCoverUrl)
+                    tv_add_cover.visibility = View.GONE
+                    iv_cover.visibility = View.VISIBLE
+                    Glide.with(this@AddArticleActivity).load(mCoverUrl)
+                            .apply(GlideRequestOpts.baseImageOpts)
+                            .into(iv_cover)
+                }
+            }
+        })
     }
 
     private fun showCreateCategoryDialog() {
@@ -183,19 +230,9 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
                 drawer_add_article.openDrawer(GravityCompat.END)
             }
 
-    private val REQUEST_CODE_CHOOSE_ARTICLE_COVER = 10
-
-    private fun jumpToSystemImage() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_article_cover)),
-                REQUEST_CODE_CHOOSE_ARTICLE_COVER)
-    }
-
     override fun onClick(v: View?) =
             when (v?.id) {
-                R.id.tv_add_cover -> jumpToSystemImage()
+                R.id.tv_add_cover -> SystemUtils.openImage(this, getString(R.string.choose_article_cover))
                 R.id.iv_add_category -> showCreateCategoryDialog()
                 R.id.iv_add_tag -> showCreateTagDialog()
                 else -> {
@@ -230,11 +267,11 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            REQUEST_CODE_CHOOSE_ARTICLE_COVER -> {
+            SystemUtils.REQUEST_CODE_CHOOSE_IMAGE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val uri: Uri = data?.data!!
                     Log.d(TAG, "onActivityResult: uri: " + uri.path)
-                    Glide.with(this).load(uri).into(iv_cover)
+                    uploadCover(uri)
                 }
             }
         }

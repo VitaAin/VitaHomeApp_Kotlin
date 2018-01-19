@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -21,7 +20,6 @@ import android.view.MenuItem
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import com.vita.home.R
 import com.vita.home.adapter.commonrvadapter.RvCommonAdapter
 import com.vita.home.adapter.commonrvadapter.ViewHolder
@@ -33,6 +31,7 @@ import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
 import com.vita.home.dialog.InfoPromptDialog
 import com.vita.home.helper.AccountHelper
+import com.vita.home.helper.GlideRequestOpts
 import com.vita.home.utils.NetworkUtils
 import com.vita.home.utils.PermissionsUtils
 import com.vita.home.utils.SystemUtils
@@ -154,13 +153,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun uploadAvatar(uri: Uri) {
         var path = SystemUtils.getImagePath(this, uri)
+        // TODO check extension and size of file
         var file = File(path)
         Api.get(this).uploadUserAvatar(file, object : Callback<Wrap<Image>> {
             override fun onResponse(call: Call<Wrap<Image>>?, response: Response<Wrap<Image>>?) {
                 Log.i(TAG, "onResponse: " + response?.body()?.message)
-                Log.d(TAG, Gson().toJson(response?.body()))
                 if (response?.body()?.status == 1) {
-                    AccountHelper.updateUserAvatar(this@MainActivity, response.body()?.data?.url!!)
+                    var avatarUrl = response.body()?.data?.url!!
+                    Glide.with(this@MainActivity).load(uri)
+                            .apply(GlideRequestOpts.basePersonOpts)
+                            .into(nav_view_main.getHeaderView(0).iv_avatar)
+                    AccountHelper.updateUserAvatar(this@MainActivity, avatarUrl)
                 }
             }
 
@@ -186,12 +189,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             SystemUtils.REQUEST_CODE_CHOOSE_IMAGE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val uri: Uri = data?.data!!
-                    try {
-                        Glide.with(this).load(uri).into(nav_view_main.getHeaderView(0).iv_avatar)
-                        uploadAvatar(uri)
-                    } catch (e: SecurityException) {
-                        // TODO check permission and request
-                    }
+                    uploadAvatar(uri)
                 }
             }
         }

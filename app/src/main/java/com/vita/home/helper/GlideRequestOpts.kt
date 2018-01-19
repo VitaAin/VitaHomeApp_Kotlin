@@ -12,7 +12,7 @@ import com.vita.home.R
  */
 object GlideRequestOpts {
 
-    private var baseOpts = RequestOptions()
+    var baseOpts = RequestOptions()
             .error(R.drawable.lan)
             .placeholder(R.drawable.lan)
             .fallback(R.drawable.lan)
@@ -21,4 +21,14 @@ object GlideRequestOpts {
     var fitCenterOpts = baseOpts.fitCenter()
     var circleCropOpts = baseOpts.circleCrop()
     var centerInsideOpts = baseOpts.centerInside()
+
+    var basePersonOpts = RequestOptions()
+            .error(R.drawable.ic_person_white_24dp)
+            .placeholder(R.drawable.ic_person_white_24dp)
+            .fallback(R.drawable.ic_person_white_24dp)
+
+    var baseImageOpts = RequestOptions()
+            .error(R.drawable.ic_image_lightgray_24dp)
+            .placeholder(R.drawable.ic_image_lightgray_24dp)
+            .fallback(R.drawable.ic_image_lightgray_24dp)
 }
