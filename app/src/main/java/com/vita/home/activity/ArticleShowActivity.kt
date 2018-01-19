@@ -1,5 +1,6 @@
 package com.vita.home.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -48,6 +49,10 @@ class ArticleShowActivity : AppCompatActivity(), View.OnClickListener {
 
         setupToolbar()
         setupFab()
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         initData()
     }
@@ -139,6 +144,8 @@ class ArticleShowActivity : AppCompatActivity(), View.OnClickListener {
             tv_follow.visibility = View.VISIBLE
             tv_follow.setOnClickListener(this@ArticleShowActivity)
         }
+        iv_user_avatar.setOnClickListener(this@ArticleShowActivity)
+        tv_user_name.setOnClickListener(this@ArticleShowActivity)
     }
 
     private fun fillArticle() {
@@ -253,6 +260,12 @@ class ArticleShowActivity : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.tv_follow -> {
                 follow(mArticle?.userId!!)
+            }
+            R.id.iv_user_avatar,
+            R.id.tv_user_name -> {
+                var intent = Intent(this@ArticleShowActivity, PersonalCenterActivity::class.java)
+                intent.putExtra(Key.KEY_USER_ID, mArticle?.userId)
+                startActivity(intent)
             }
         }
     }

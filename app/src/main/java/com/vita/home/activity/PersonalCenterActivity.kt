@@ -1,22 +1,19 @@
 package com.vita.home.activity
 
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.google.gson.Gson
 
 import com.vita.home.R
 import com.vita.home.api.Api
+import com.vita.home.bean.IsFollow
 import com.vita.home.bean.User
 import com.vita.home.bean.Wrap
 import com.vita.home.constant.Key
@@ -37,7 +34,7 @@ class PersonalCenterActivity : AppCompatActivity(),
         PersonArticlesFragment.OnFragmentInteractionListener,
         PersonRepliesFragment.OnFragmentInteractionListener,
         PersonLikesFragment.OnFragmentInteractionListener,
-        PersonFollowsFragment.OnFragmentInteractionListener {
+        PersonFollowsFragment.OnFragmentInteractionListener, View.OnClickListener {
 
     private val TAG: String = "PersonalCenterActivity"
 
@@ -96,20 +93,53 @@ class PersonalCenterActivity : AppCompatActivity(),
         tl_personal_center.setupWithViewPager(vp_personal_center)
     }
 
-    private fun getUser()
-            = Api.get(this).getUser(mUserId!!, object : Callback<Wrap<User>> {
-        override fun onFailure(call: Call<Wrap<User>>, t: Throwable) {
-            Log.e(TAG, "onFailure: ", t)
-        }
+    private fun getUser() =
+            Api.get(this).getUser(mUserId!!, object : Callback<Wrap<User>> {
+                override fun onFailure(call: Call<Wrap<User>>, t: Throwable) {
+                    Log.e(TAG, "onFailure: ", t)
+                }
 
-        override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {
-            Log.i(TAG, "onResponse: " + response.body()?.message)
-            if (response.body()?.status == 1) {
-                mUser = response.body()?.data
-                fillUser()
-            }
+                override fun onResponse(call: Call<Wrap<User>>, response: Response<Wrap<User>>) {
+                    Log.i(TAG, "onResponse: " + response.body()?.message)
+                    if (response.body()?.status == 1) {
+                        mUser = response.body()?.data
+                        fillUser()
+                        isFollowOrNot(mUserId!!)
+                    }
+                }
+            })
+
+    private fun isFollowOrNot(userId: Int) {
+        if (!AccountHelper.check(this)) {
+            return
         }
-    })
+        Api.get(this).isFollowOrNot(userId, object : Callback<Wrap<IsFollow>> {
+            override fun onFailure(call: Call<Wrap<IsFollow>>?, t: Throwable?) {
+                Log.e(TAG, "onFailure: ", t)
+            }
+
+            override fun onResponse(call: Call<Wrap<IsFollow>>?, response: Response<Wrap<IsFollow>>?) {
+                Log.i(TAG, "onResponse: " + response?.body()?.message)
+                if (response?.body()?.status == 1) {
+                    fillFollow(response.body()?.data?.followed!!)
+                }
+            }
+        })
+    }
+
+    private fun follow(userId: Int) =
+            Api.get(this).follow(userId, object : Callback<Wrap<IsFollow>> {
+                override fun onFailure(call: Call<Wrap<IsFollow>>?, t: Throwable?) {
+                    Log.e(TAG, "onFailure: ", t)
+                }
+
+                override fun onResponse(call: Call<Wrap<IsFollow>>?, response: Response<Wrap<IsFollow>>?) {
+                    Log.i(TAG, "onResponse: " + response?.body()?.message)
+                    if (response?.body()?.status == 1) {
+                        fillFollow(response.body()?.data?.followed!!)
+                    }
+                }
+            })
 
     private fun fillUser() {
         if (mUser == null) {
@@ -121,6 +151,28 @@ class PersonalCenterActivity : AppCompatActivity(),
                 .into(iv_user_avatar)
         tv_username.text = mUser!!.name
         tv_email.text = mUser!!.email
+
+        if (AccountHelper.getUserId(this) == mUserId) {
+            tv_follow.visibility = View.GONE
+        } else {
+            tv_follow.visibility = View.VISIBLE
+            tv_follow.setOnClickListener(this@PersonalCenterActivity)
+        }
+    }
+
+    private fun fillFollow(isFollow: Boolean) =
+            if (isFollow) {
+                tv_follow.isActivated = true
+                tv_follow.text = getString(R.string.already_follow)
+            } else {
+                tv_follow.isActivated = false
+                tv_follow.text = getString(R.string.add_follow)
+            }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.tv_follow -> follow(mUserId!!)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

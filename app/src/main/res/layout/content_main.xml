@@ -22,8 +22,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:scrollbars="vertical"
-            android:visibility="gone"/>
+            android:scrollbars="vertical"/>
 
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
