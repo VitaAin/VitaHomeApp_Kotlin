@@ -77,8 +77,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupFab() =
             fab_in_add_article.setOnClickListener { view ->
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
+                createArticle()
             }
 
     private fun setupDrawer() {
@@ -99,6 +98,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         tv_add_cover.setOnClickListener(this@AddArticleActivity)
+        iv_cover.setOnClickListener(this@AddArticleActivity)
         iv_add_category.setOnClickListener(this@AddArticleActivity)
         iv_add_tag.setOnClickListener(this@AddArticleActivity)
     }
@@ -181,7 +181,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
         var path = SystemUtils.getImagePath(this, uri)
         // TODO check extension and size of file
         var file = File(path)
-        Api.get(this).uploadUserImage(file, object : Callback<Wrap<Image>> {
+        Api.get(this).uploadUserImage(file, true, object : Callback<Wrap<Image>> {
             override fun onFailure(call: Call<Wrap<Image>>?, t: Throwable?) {
                 Log.e(TAG, "onFailure: ", t)
             }
@@ -197,6 +197,7 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
                     Glide.with(this@AddArticleActivity).load(mCoverUrl)
                             .apply(GlideRequestOpts.baseImageOpts)
                             .into(iv_cover)
+                    toggleCoverAddable(true)
                 }
             }
         })
@@ -230,9 +231,17 @@ class AddArticleActivity : AppCompatActivity(), View.OnClickListener {
                 drawer_add_article.openDrawer(GravityCompat.END)
             }
 
+    private fun toggleCoverAddable(isAddable: Boolean) {
+        tv_add_cover.isClickable = isAddable
+        iv_cover.isClickable = isAddable
+    }
+
     override fun onClick(v: View?) =
             when (v?.id) {
-                R.id.tv_add_cover -> SystemUtils.openImage(this, getString(R.string.choose_article_cover))
+                R.id.tv_add_cover, R.id.iv_cover -> {
+                    toggleCoverAddable(false)
+                    SystemUtils.openImage(this, getString(R.string.choose_article_cover))
+                }
                 R.id.iv_add_category -> showCreateCategoryDialog()
                 R.id.iv_add_tag -> showCreateTagDialog()
                 else -> {

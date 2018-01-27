@@ -117,7 +117,7 @@ interface ApiService {
 
     @Multipart
     @POST("user_image/upload")
-    fun uploadUserImage(@Part file: MultipartBody.Part): Call<Wrap<Image>>
+    fun uploadUserImage(@Part file: MultipartBody.Part, @Part isCover: MultipartBody.Part): Call<Wrap<Image>>
 
     class Factory {
         fun createApiService(ctx: Context): ApiService {

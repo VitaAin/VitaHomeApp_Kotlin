@@ -112,9 +112,10 @@ class Api private constructor(ctx: Context) {
         mApiService.uploadUserAvatar(part).enqueue(listener)
     }
 
-    fun uploadUserImage(file: File, listener: Callback<Wrap<Image>>) {
+    fun uploadUserImage(file: File, isCover: Boolean, listener: Callback<Wrap<Image>>) {
         var requestBody = RequestBody.create(MediaType.parse("image/*"), file)
-        var part = MultipartBody.Part.createFormData("file", file.name, requestBody)
-        mApiService.uploadUserImage(part).enqueue(listener)
+        var filePart = MultipartBody.Part.createFormData("file", file.name, requestBody)
+        var isCoverPart = MultipartBody.Part.createFormData("is_cover", isCover.toString())
+        mApiService.uploadUserImage(filePart, isCoverPart).enqueue(listener)
     }
 }

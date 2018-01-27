@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/VitaHome.iml" filepath="$PROJECT_DIR$/VitaHome.iml" />
+      <module fileurl="file://D:\Projects\Android\VitaHomeApp_Kotlin\VitaHome.iml" filepath="D:\Projects\Android\VitaHomeApp_Kotlin\VitaHome.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VitaHomeApp_Kotlin.iml" filepath="$PROJECT_DIR$/VitaHomeApp_Kotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Projects\Android\VitaHomeApp_Kotlin\app\app.iml" filepath="D:\Projects\Android\VitaHomeApp_Kotlin\app\app.iml" />
     </modules>
   </component>
 </project>
