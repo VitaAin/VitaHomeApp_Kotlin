@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,19 +24,25 @@
             android:hint="@string/article_title"
             android:inputType="text"
             android:maxLines="1"
-            android:padding="4dp"/>
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/not_support_insert_image_into_article_body"
+            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/et_article_body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
             android:background="@drawable/shape_et_article_body"
             android:gravity="top"
             android:hint="@string/article_body"
             android:inputType="textMultiLine"
             android:padding="4dp"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

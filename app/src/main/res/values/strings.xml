@@ -95,5 +95,6 @@
     <string name="please_upload_cover">请上传封面</string>
     <string name="create_successfully">创建成功</string>
     <string name="on_loading">加载中...</string>
+    <string name="not_support_insert_image_into_article_body">* 文章正文暂不支持插入图片</string>
 
 </resources>
